@@ -34,13 +34,14 @@ html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:16px;line-height:1.5;overflow-x:hidden;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--card-border);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:90px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--card-border);}
 .nav-logo{display:flex;align-items:center;line-height:0;text-decoration:none;color:inherit;}
-.nav-logo img{height:38px;width:auto;display:block;}
+.nav-logo img{height:49px;width:auto;display:block;}
 .nav-links{display:flex;gap:32px;align-items:center;}
 .nav-links a{font-size:14px;color:var(--muted-fg);text-decoration:none;transition:color .15s;}
 .nav-links a:hover{color:var(--fg);}
 .nav-cta{padding:10px 20px;background:var(--fg);color:#fff;border-radius:var(--radius-cta);font-size:14px;font-weight:600;text-decoration:none;}
+.nav-links a.nav-cta,.nav-links a.nav-cta:hover{color:#fff;}
 
 /* HERO */
 .hero{min-height:100vh;background:var(--dark);display:flex;align-items:center;padding:100px 48px 80px;}
@@ -291,7 +292,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 48px;d
 
 footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.06);}
 .footer-logo{display:flex;align-items:center;line-height:0;text-decoration:none;}
-.footer-logo img{height:32px;width:auto;display:block;}
+.footer-logo img{height:42px;width:auto;display:block;}
 .footer-links{display:flex;gap:24px;}
 .footer-links a{font-size:13px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;}
 .footer-links a:hover{color:rgba(255,255,255,.6);}
@@ -332,7 +333,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 <body>
 
 <nav>
-  <a href="/" class="nav-logo"><img src="assets/logo.svg" alt="Return to Now" width="206" height="38" decoding="async"></a>
+  <a href="/" class="nav-logo"><img src="assets/logo.svg" alt="Return to Now" width="266" height="49" decoding="async"></a>
   <div class="nav-links">
     <a href="#how">How it works</a>
     <a href="#why">Why it works</a>
@@ -800,7 +801,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 </section>
 
 <footer>
-  <a href="/" class="footer-logo"><img src="assets/logo-white.svg" alt="Return to Now" width="174" height="32" decoding="async"></a>
+  <a href="/" class="footer-logo"><img src="assets/logo-white.svg" alt="Return to Now" width="228" height="42" decoding="async"></a>
   <div class="footer-links">
     <a href="#">Privacy</a>
     <a href="#">Terms</a>
