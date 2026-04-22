@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/auth/:path*",
+      "destination": "https://www.returntonow.co/auth/:path*",
+      "permanent": false
+    }
+  ]
+}
