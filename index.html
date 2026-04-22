@@ -105,8 +105,64 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .stat-mini-l{font-size:12px;color:var(--muted-fg);margin-top:6px;line-height:1.5;}
 
 /* ===== STICKY SCROLL HOW IT WORKS ===== */
-.how{background:var(--dark);padding:120px 0 0;}
-.how-intro{padding:0 48px;margin-bottom:80px;}
+.how{background:var(--dark);padding:0;}
+/* Full-viewport intro */
+.how-intro{
+  min-height:80vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:96px 48px 48px;
+  margin-bottom:56px;
+  box-sizing:border-box;
+}
+@media (min-width:768px){
+  .how-intro{min-height:100vh;padding:120px 48px 64px;}
+}
+.how-intro-inner{max-width:800px;margin:0 auto;width:100%;text-align:center;}
+.how-intro .kicker.light{font-size:10px;letter-spacing:0.18em;font-weight:500;margin-bottom:24px;}
+@media (min-width:768px){
+  .how-intro .kicker.light{font-size:12px;margin-bottom:32px;}
+}
+.how-intro .sec-h2.white{font-size:32px;line-height:1.1;letter-spacing:-0.02em;margin-bottom:0;}
+@media (min-width:768px){
+  .how-intro .sec-h2.white{font-size:clamp(40px,5vw,56px);}
+}
+.how-scroll-hint{
+  margin-top:48px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+@media (min-width:768px){
+  .how-scroll-hint{margin-top:64px;}
+}
+.how-scroll-hint-text{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+}
+.how-scroll-arrow{
+  width:24px;
+  height:24px;
+  color:var(--accent);
+  flex-shrink:0;
+  animation:howScrollArrowBounce 1.8s ease-in-out infinite;
+}
+@keyframes howScrollArrowBounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(10px);}
+}
+@media (prefers-reduced-motion:reduce){
+  .how-scroll-arrow{animation:none;}
+}
+@media (max-width:720px){
+  .how-intro{padding-left:16px;padding-right:16px;}
+}
 .how-scroll-section{display:grid;grid-template-columns:1fr 480px;max-width:1100px;margin:0 auto;padding:0 48px;}
 
 /* Steps column */
@@ -353,7 +409,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     <div class="hero-stats" id="heroStats" aria-label="Key statistics">
       <div class="hstat" data-hero-stat data-value="33" data-suffix="">
         <div class="hstat-n" aria-live="polite">0</div>
-        <div class="hstat-l">days a year lost to social media, per person</div>
+        <div class="hstat-l">days a year lost to social media on average</div>
       </div>
       <div class="hstat" data-hero-stat data-value="2.5" data-suffix="×">
         <div class="hstat-n" aria-live="polite">0</div>
@@ -380,7 +436,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
         <div class="kicker">The problem</div>
         <h2 class="sec-h2">Your team is struggling with social media. <em>It isn't a willpower problem.</em></h2>
         <div class="body-copy">
-          <p>The apps on your employees' phones have one goal: keep them scrolling. Every notification, every autoplay video, every infinite feed is engineered by teams of behavioral scientists to hold attention as long as possible.</p>
+          <p>The apps on your team's phones have one goal: keep them scrolling. Every notification, every autoplay video, every infinite feed is engineered by teams of behavioral scientists to hold attention as long as possible.</p>
           <p>This takes a real toll — on sleep, on anxiety, on the ability to be present with the people they love. And it affects every dimension of their lives, including how they feel when they come to work.</p>
           <p>You can't legislate this away. But you can give your people something that actually helps — a tool built on behavioral science that puts them back in control.</p>
         </div>
@@ -389,7 +445,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
         <div class="stat-dark">
           <div class="stat-dark-n">3–4</div>
           <div class="stat-dark-u">hours per day</div>
-          <div class="stat-dark-d">The average person spends 3 to 4 hours daily on social media. That's more time than most people spend with their families — and your employees are no exception.</div>
+          <div class="stat-dark-d">The average person spends 3 to 4 hours daily on social media. That's more time than most people spend with their families — and your team is no exception.</div>
         </div>
         <div class="stat-row">
           <div class="stat-mini">
@@ -408,12 +464,19 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 
 <!-- HOW IT WORKS — STICKY SCROLL -->
 <section class="how" id="how">
-  <div class="sw">
-    <div class="how-intro">
+  <div class="how-intro">
+    <div class="how-intro-inner">
       <div class="kicker light">How it works</div>
       <h2 class="sec-h2 white">A few small interventions that <em>actually change behavior.</em></h2>
+      <div class="how-scroll-hint" aria-hidden="true">
+        <div class="how-scroll-hint-text">Scroll to see how</div>
+        <svg class="how-scroll-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
     </div>
-    <div class="how-scroll-section">
+  </div>
+  <div class="how-scroll-section">
 
       <!-- Left: scrolling steps -->
       <div class="how-steps-col" id="howStepsCol">
@@ -421,7 +484,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
         <div class="how-step-item" data-step="0">
           <div class="how-step-num">Step 01</div>
           <h3 class="how-step-title">The widget <em>intercepts the reflex.</em></h3>
-          <p class="how-step-body">A home screen widget replaces social app icons. The moment your employee reaches for Instagram or TikTok, they see Return to Now first. That single pause is enough to break the automatic grab-and-scroll cycle before the app ever opens.</p>
+          <p class="how-step-body">A home screen widget replaces social app icons. The moment someone on your team reaches for Instagram or TikTok, they see Return to Now first. That single pause is enough to break the automatic grab-and-scroll cycle before the app ever opens.</p>
           <div class="how-step-detail">
             <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>One moment of friction</strong> is all it takes to interrupt an automatic behavior and return choice to the user.</div></div>
             <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>No content is blocked.</strong> The app is still one tap away. The goal is awareness, not restriction.</div></div>
@@ -433,7 +496,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
           <h3 class="how-step-title">They set an <em>intention before opening.</em></h3>
           <p class="how-step-body">If they choose to open the app, they say why. A quick prompt asks what they're looking for — and reminds them of the things they said matter most to them. Then they set a time limit and proceed.</p>
           <div class="how-step-detail">
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Intentions are personal.</strong> Each employee decides for themselves what they want more of. Nothing is prescribed.</div></div>
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Intentions are personal.</strong> Each person decides for themselves what they want more of. Nothing is prescribed.</div></div>
             <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Time limits are self-set,</strong> not enforced. The app trusts the person to follow through.</div></div>
           </div>
         </div>
@@ -443,7 +506,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
           <h3 class="how-step-title">A timer keeps them <em>honest with themselves.</em></h3>
           <p class="how-step-body">While using the app, a quiet background timer runs. When time is up, Return to Now asks if they're done — or if they want to extend. It's not a hard wall. It's a gentle, persistent reminder of the commitment they made to themselves.</p>
           <div class="how-step-detail">
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>No hard cutoffs.</strong> The employee stays in control at every moment. The app nudges, not nags.</div></div>
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>No hard cutoffs.</strong> They stay in control at every moment. The app nudges, not nags.</div></div>
             <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Session data stays private.</strong> Usage details are never visible to the employer.</div></div>
           </div>
         </div>
@@ -614,7 +677,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
       </div>
 
     </div>
-  </div>
 </section>
 
 <!-- WHY IT WORKS -->
@@ -624,7 +686,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
       <div>
         <div class="kicker">Why it works</div>
         <h2 class="sec-h2">Other apps block access. We help people <em>replace the habit.</em></h2>
-        <p class="why-sub">Blunt restrictions work until they don't. Employees delete focus-blocking apps within a week because nothing fills the void. Return to Now is built on a fundamentally different premise.</p>
+        <p class="why-sub">Blunt restrictions work until they don't. People delete focus-blocking apps within a week because nothing fills the void. Return to Now is built on a fundamentally different premise.</p>
         <div class="cmp-row">
           <div class="cmp bad">
             <div class="cmp-lbl">Focus blockers</div>
@@ -634,7 +696,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
           <div class="cmp good">
             <div class="cmp-lbl">Return to Now</div>
             <div class="cmp-title">Replace the habit</div>
-            <div class="cmp-desc">Help employees connect their phone time to what actually matters to them. Change because they want to.</div>
+            <div class="cmp-desc">Help your people connect their phone time to what actually matters to them. Change because they want to.</div>
           </div>
         </div>
       </div>
@@ -661,12 +723,12 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
       <div class="phil-card">
         <div class="phil-n">01</div>
         <div class="phil-title">Pattern interruption</div>
-        <p class="phil-body">The widget creates a deliberate pause between the impulse and the action. That single moment of friction is enough to disrupt automatic behavior and return control to the employee.</p>
+        <p class="phil-body">The widget creates a deliberate pause between the impulse and the action. That single moment of friction is enough to disrupt automatic behavior and return control to them.</p>
       </div>
       <div class="phil-card">
         <div class="phil-n">02</div>
         <div class="phil-title">Habit replacement</div>
-        <p class="phil-body">Employees identify what they want more time for before they restrict anything. The alternative is ready before the craving hits — replacing a behavior, not just removing one.</p>
+        <p class="phil-body">Your people identify what they want more time for before they restrict anything. The alternative is ready before the craving hits — replacing a behavior, not just removing one.</p>
       </div>
       <div class="phil-card">
         <div class="phil-n">03</div>
@@ -680,7 +742,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 <!-- CHIPS -->
 <div class="chips-strip">
   <div class="sw">
-    <div class="chips-kicker">What your employees will make time for</div>
+    <div class="chips-kicker">What your team will make time for</div>
     <div class="chips">
       <span class="chip mint">Be more present with the people I love</span>
       <span class="chip tan">Work on something I'm proud of</span>
@@ -700,13 +762,13 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     <div class="benefit-grid">
       <div>
         <div class="kicker light">The benefit</div>
-        <h2 class="sec-h2 white">A wellness benefit your employees will actually <em>want to use.</em></h2>
-        <p class="benefit-body">Return to Now is offered as an employer-sponsored benefit. Your organization covers employee access — and each employee gets additional licenses to share with family and friends, so they're never on the journey alone.</p>
+        <h2 class="sec-h2 white">A wellness benefit your team will actually <em>want to use.</em></h2>
+        <p class="benefit-body">Return to Now is offered as an employer-sponsored benefit. Your organization covers access for your team — and each person gets additional licenses to share with family and friends, so they're never on the journey alone.</p>
         <div class="benefit-feats">
-          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Simple rollout.</strong> Employees download the app and activate their seat with a company code. No IT integration required.</div></div>
-          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Each employee gets extra licenses</strong> to invite the people in their life — a partner, a sibling, a friend. Sponsored by you, at no cost to them.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Simple rollout.</strong> Your people download the app and activate their seat with a company code. No IT integration required.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Each person gets extra licenses</strong> to invite the people in their life — a partner, a sibling, a friend. Sponsored by you, at no cost to them.</div></div>
           <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Aggregate participation data only.</strong> You see enrollment numbers. You never see individual usage or session details.</div></div>
-          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Your brand, front and center.</strong> Employees see your organization's name as the sponsor — a clear, visible signal that you invest in their wellbeing.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Your brand, front and center.</strong> Your people see your organization's name as the sponsor — a clear, visible signal that you invest in their wellbeing.</div></div>
         </div>
       </div>
       <div>
@@ -720,7 +782,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
               <div class="benefit-tier-l">
                 <div class="benefit-tier-ic" style="background:#163d28;">A</div>
                 <div>
-                  <div class="benefit-tier-name">Employee</div>
+                  <div class="benefit-tier-name">Team member</div>
                   <div class="benefit-tier-sub">Full app access</div>
                 </div>
               </div>
@@ -731,7 +793,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
                 <div class="benefit-tier-ic" style="background:#1a2e1a;">+</div>
                 <div>
                   <div class="benefit-tier-name">Partner or spouse</div>
-                  <div class="benefit-tier-sub">Invited by employee</div>
+                  <div class="benefit-tier-sub">Invited by team member</div>
                 </div>
               </div>
               <span class="benefit-badge free">Free license</span>
@@ -741,13 +803,13 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
                 <div class="benefit-tier-ic" style="background:#2a2016;">+</div>
                 <div>
                   <div class="benefit-tier-name">Friend or family member</div>
-                  <div class="benefit-tier-sub">Invited by employee</div>
+                  <div class="benefit-tier-sub">Invited by team member</div>
                 </div>
               </div>
               <span class="benefit-badge free">Free license</span>
             </div>
             <div style="padding:14px 16px;background:rgba(16,185,129,.08);border-radius:var(--radius-lg);border:1px solid rgba(16,185,129,.2);margin-top:4px;">
-              <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;">Each additional license is covered by your organization. Employees see it as a benefit extended to the people they love — which is exactly what it is.</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;">Each additional license is covered by your organization. Your team sees it as a benefit extended to the people they love — which is exactly what it is.</div>
             </div>
           </div>
         </div>
@@ -808,11 +870,11 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
           <label class="form-label" for="teamSize">Team size</label>
           <select class="form-select" id="teamSize" name="teamSize" required>
             <option value="" disabled selected>Select team size</option>
-            <option value="1-50">1-50 employees</option>
-            <option value="51-200">51-200 employees</option>
-            <option value="201-500">201-500 employees</option>
-            <option value="501-1000">501-1,000 employees</option>
-            <option value="1001+">1,001+ employees</option>
+            <option value="1-50">1-50 people</option>
+            <option value="51-200">51-200 people</option>
+            <option value="201-500">201-500 people</option>
+            <option value="501-1000">501-1,000 people</option>
+            <option value="1001+">1,001+ people</option>
           </select>
         </div>
         <div class="form-field">
@@ -840,6 +902,10 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   const blocks = document.querySelectorAll('[data-hero-stat]');
   if (!root || !blocks.length) return;
 
+  const COUNT_MS = 1800;
+  const STAGGER_MS = 200;
+  const LABEL_PAUSE_MS = 200;
+
   let ran = false;
   function format(val, suffix) {
     if (suffix === '×') return val.toFixed(1) + suffix;
@@ -849,17 +915,14 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     const value = parseFloat(block.dataset.value);
     const suffix = block.dataset.suffix || '';
     const numEl = block.querySelector('.hstat-n');
-    const labelEl = block.querySelector('.hstat-l');
-    if (!numEl || !labelEl || Number.isNaN(value)) return;
+    if (!numEl || Number.isNaN(value)) return;
 
-    const duration = 1800;
     const steps = 60;
     const increment = value / steps;
     let step = 0;
 
     setTimeout(() => {
       numEl.textContent = format(0, suffix);
-      labelEl.classList.remove('is-visible');
 
       const interval = setInterval(() => {
         step++;
@@ -868,16 +931,26 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
         } else {
           clearInterval(interval);
           numEl.textContent = format(value, suffix);
-          setTimeout(() => labelEl.classList.add('is-visible'), 200);
         }
-      }, duration / steps);
+      }, COUNT_MS / steps);
     }, delay);
   }
 
   function start() {
     if (ran) return;
     ran = true;
-    blocks.forEach((block, i) => runStat(block, i * 200));
+    blocks.forEach((block) => {
+      const labelEl = block.querySelector('.hstat-l');
+      if (labelEl) labelEl.classList.remove('is-visible');
+    });
+    blocks.forEach((block, i) => runStat(block, i * STAGGER_MS));
+    const lastCountEnd = (blocks.length - 1) * STAGGER_MS + COUNT_MS;
+    setTimeout(() => {
+      blocks.forEach((block) => {
+        const labelEl = block.querySelector('.hstat-l');
+        if (labelEl) labelEl.classList.add('is-visible');
+      });
+    }, lastCountEnd + LABEL_PAUSE_MS);
   }
 
   if ('IntersectionObserver' in window) {
