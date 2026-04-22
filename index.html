@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Return to Now — Employee Digital Wellness</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#ffffff;
+  --fg:#030213;
+  --muted-fg:#5C5C6E;
+  --card:#ffffff;
+  --card-bg:#F4F4F5;
+  --card-border:#E4E4E7;
+  --border:rgba(0,0,0,0.1);
+  --accent:#10B981;
+  --accent-muted:rgba(16,185,129,0.1);
+  --accent-chip-text:#047857;
+  --chip-tan-bg:#EFE8DD;
+  --chip-tan-text:#44403C;
+  --dark:#09090B;
+  --shadow-card:0 0 16px rgba(0,0,0,0.11);
+  --radius-lg:10px;
+  --radius-xl:14px;
+  --radius-cta:16px;
+  --font-sans:Inter,system-ui,sans-serif;
+  --font-display:Manrope,Inter,system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:16px;line-height:1.5;overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--card-border);}
+.nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-0.04em;color:var(--fg);}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-links a{font-size:14px;color:var(--muted-fg);text-decoration:none;transition:color .15s;}
+.nav-links a:hover{color:var(--fg);}
+.nav-cta{padding:10px 20px;background:var(--fg);color:#fff;border-radius:var(--radius-cta);font-size:14px;font-weight:600;text-decoration:none;}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--dark);display:flex;align-items:center;padding:100px 48px 80px;}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 360px;gap:80px;align-items:center;}
+.hero-kicker{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:24px;}
+.hero-h1{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#fff;margin-bottom:24px;}
+.hero-h1 em{font-style:normal;color:var(--accent);}
+.hero-sub{font-size:18px;line-height:1.65;color:rgba(255,255,255,.45);max-width:480px;margin-bottom:40px;}
+.hero-btns{display:flex;gap:12px;margin-bottom:64px;}
+.btn-green{padding:16px 28px;min-height:60px;background:var(--accent);color:#fff;border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;transition:opacity .15s;}
+.btn-green:hover{opacity:.88;}
+.btn-ghost{padding:16px 28px;min-height:60px;background:transparent;color:rgba(255,255,255,.55);border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.14);transition:background .15s;}
+.btn-ghost:hover{background:rgba(255,255,255,.07);}
+.hero-stats{display:flex;gap:0;padding-top:36px;border-top:1px solid rgba(255,255,255,.08);}
+.hstat{flex:1;}
+.hstat-n{font-family:var(--font-display);font-size:40px;font-weight:700;letter-spacing:-0.02em;color:#fff;line-height:1;}
+.hstat-l{font-size:12px;color:rgba(255,255,255,.3);margin-top:6px;line-height:1.5;}
+
+/* phone mockup */
+.phone-frame{width:228px;height:464px;background:#111;border-radius:34px;border:6px solid #222;overflow:hidden;box-shadow:0 48px 80px rgba(0,0,0,.7);margin:0 auto;}
+.phone-notch{width:66px;height:17px;background:#111;border-radius:0 0 10px 10px;margin:0 auto;}
+.phone-body{height:calc(100% - 17px);background:#fff;padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+.ph-mono{font-family:var(--font-mono);font-size:7px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:#52525B;}
+.ph-widget{background:#fff;border-radius:13px;padding:12px;box-shadow:var(--shadow-card);}
+.ph-widget-hd{display:flex;align-items:center;gap:7px;margin-bottom:9px;}
+.ph-icon{width:20px;height:20px;border-radius:5px;background:var(--fg);display:flex;align-items:center;justify-content:center;}
+.ph-wname{font-family:var(--font-display);font-size:8px;font-weight:700;color:var(--fg);}
+.ph-wname span{color:var(--accent);}
+.ph-wsub{font-size:7px;color:var(--muted-fg);}
+.ph-apps{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.ph-app{background:var(--card-bg);border-radius:8px;padding:7px 8px;display:flex;align-items:center;gap:5px;}
+.ph-app-ic{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff;flex-shrink:0;}
+.ph-app-lbl{font-size:7px;font-weight:600;color:var(--fg);}
+.ph-int{background:var(--accent-muted);border-radius:9px;padding:9px;border:1px solid rgba(16,185,129,.2);}
+.ph-int-q{font-size:7px;color:var(--accent-chip-text);font-weight:600;margin-bottom:3px;}
+.ph-int-txt{font-size:7px;color:var(--fg);line-height:1.45;}
+.ph-acts{display:flex;flex-direction:column;gap:4px;}
+.ph-act{background:var(--chip-tan-bg);border-radius:7px;padding:5px 8px;font-size:7px;color:var(--chip-tan-text);display:flex;align-items:center;gap:5px;}
+.ph-act-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+/* SHARED */
+.sw{max-width:1100px;margin:0 auto;}
+.kicker{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#52525B;margin-bottom:20px;}
+.kicker.light{color:var(--accent);}
+.sec-h2{font-family:var(--font-display);font-size:clamp(26px,3vw,44px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:var(--fg);margin-bottom:22px;}
+.sec-h2 em{font-style:normal;color:var(--accent);}
+.sec-h2.white{color:#fff;}
+.sec-h2.white em{color:var(--accent);}
+.body-copy{font-size:16px;line-height:1.75;color:var(--muted-fg);}
+.body-copy p{margin-bottom:16px;}
+
+/* PROBLEM */
+.problem{padding:120px 48px;background:var(--bg);}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.prob-right{display:flex;flex-direction:column;gap:12px;}
+.stat-dark{background:var(--dark);border-radius:var(--radius-xl);padding:28px;box-shadow:var(--shadow-card);}
+.stat-dark-n{font-family:var(--font-display);font-size:56px;font-weight:700;letter-spacing:-0.02em;color:#fff;line-height:1;}
+.stat-dark-u{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:6px;}
+.stat-dark-d{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-top:14px;border-top:1px solid rgba(255,255,255,.07);padding-top:14px;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.stat-mini{background:var(--card-bg);border-radius:var(--radius-xl);padding:20px;border:1px solid var(--card-border);}
+.stat-mini-n{font-family:var(--font-display);font-size:30px;font-weight:700;letter-spacing:-0.02em;color:var(--fg);line-height:1;}
+.stat-mini-l{font-size:12px;color:var(--muted-fg);margin-top:6px;line-height:1.5;}
+
+/* ===== STICKY SCROLL HOW IT WORKS ===== */
+.how{background:var(--dark);padding:120px 0 0;}
+.how-intro{padding:0 48px;margin-bottom:80px;}
+.how-scroll-section{display:grid;grid-template-columns:1fr 480px;max-width:1100px;margin:0 auto;padding:0 48px;}
+
+/* Steps column */
+.how-steps-col{padding-right:80px;}
+.how-step-item{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0;}
+.how-step-item:first-child{padding-top:0;}
+.how-step-item:last-child{padding-bottom:120px;}
+.how-step-num{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;}
+.how-step-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,42px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#fff;margin-bottom:18px;}
+.how-step-title em{font-style:normal;color:var(--accent);}
+.how-step-body{font-size:17px;line-height:1.75;color:rgba(255,255,255,.45);margin-bottom:28px;max-width:420px;}
+.how-step-detail{display:flex;flex-direction:column;gap:12px;}
+.how-step-pill{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,.04);border-radius:var(--radius-lg);padding:14px 16px;border:1px solid rgba(255,255,255,.06);}
+.how-step-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px;}
+.how-step-pill-text{font-size:14px;color:rgba(255,255,255,.52);line-height:1.6;}
+.how-step-pill-text strong{color:#fff;font-weight:600;}
+
+/* Sticky phone column */
+.how-phone-col{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;}
+.how-phone-wrap{position:relative;width:260px;}
+
+/* phone frame for how section */
+.how-phone-frame{width:260px;height:530px;background:#111;border-radius:38px;border:7px solid #1e1e1e;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.05);position:relative;}
+.how-phone-notch{width:72px;height:18px;background:#111;border-radius:0 0 11px 11px;margin:0 auto;position:relative;z-index:2;}
+
+/* screenshot slots */
+.how-screen{position:absolute;inset:0;transition:opacity .5s ease, transform .5s ease;opacity:0;transform:translateY(12px);}
+.how-screen.active{opacity:1;transform:translateY(0);}
+.how-screen img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* placeholder screens for each step */
+.screen-placeholder{width:100%;height:100%;display:flex;flex-direction:column;background:#fff;}
+.sp-statusbar{height:20px;background:#f9f9f9;display:flex;align-items:center;justify-content:flex-end;padding:0 14px;flex-shrink:0;}
+.sp-statusbar-time{font-family:var(--font-mono);font-size:7px;color:#888;}
+.sp-content{flex:1;padding:14px;display:flex;flex-direction:column;gap:8px;overflow:hidden;}
+/* screen 1: widget intercepts */
+.sp-homescreen{background:#1a1a2e;}
+.sp-homescreen .sp-content{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px;align-content:start;}
+.sp-app-icon{width:100%;aspect-ratio:1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;}
+.sp-app-icon-lbl{font-size:5.5px;color:rgba(255,255,255,.7);text-align:center;font-weight:500;}
+.sp-widget-overlay{grid-column:1/-1;background:#fff;border-radius:14px;padding:12px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.sp-widget-hd{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.sp-widget-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.sp-widget-title{font-family:var(--font-display);font-size:9px;font-weight:700;color:var(--fg);}
+.sp-widget-sub{font-size:7px;color:var(--muted-fg);}
+.sp-widget-apps{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.sp-wapp{background:var(--card-bg);border-radius:7px;padding:6px 7px;display:flex;align-items:center;gap:4px;}
+.sp-wapp-ic{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
+.sp-wapp-lbl{font-size:6px;font-weight:600;color:var(--fg);}
+/* screen 2: intention prompt */
+.sp-intention{background:#fff;}
+.sp-int-header{background:var(--dark);padding:16px 14px 20px;flex-shrink:0;}
+.sp-int-header-app{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.sp-int-app-ic{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;}
+.sp-int-app-name{font-size:10px;color:rgba(255,255,255,.6);}
+.sp-int-q{font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;line-height:1.3;}
+.sp-int-body{padding:14px;display:flex;flex-direction:column;gap:8px;}
+.sp-int-option{border-radius:10px;padding:10px 12px;border:1.5px solid var(--card-border);cursor:pointer;}
+.sp-int-option.selected{border-color:var(--accent);background:var(--accent-muted);}
+.sp-int-opt-text{font-size:9px;font-weight:600;color:var(--fg);}
+.sp-int-opt-sub{font-size:7.5px;color:var(--muted-fg);margin-top:2px;}
+.sp-int-option.selected .sp-int-opt-text{color:var(--accent-chip-text);}
+.sp-int-cta{margin:0 14px;background:var(--accent);border-radius:10px;padding:10px;text-align:center;font-size:9px;font-weight:700;color:#fff;}
+/* screen 3: session timer */
+.sp-timer{background:var(--dark);}
+.sp-timer-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px 14px;}
+.sp-timer-app-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.sp-timer-app-ic{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;}
+.sp-timer-app-name{font-size:10px;color:rgba(255,255,255,.5);}
+.sp-timer-circle{width:100px;height:100px;border-radius:50%;border:3px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;position:relative;margin:8px 0;}
+.sp-timer-circle::before{content:'';position:absolute;inset:-3px;border-radius:50%;border:3px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent);}
+.sp-timer-n{font-family:var(--font-display);font-size:22px;font-weight:700;color:#fff;line-height:1;}
+.sp-timer-unit{font-size:7px;color:rgba(255,255,255,.3);margin-top:2px;}
+.sp-timer-label{font-size:8px;color:rgba(255,255,255,.3);}
+.sp-timer-intent{background:rgba(255,255,255,.05);border-radius:9px;padding:8px 12px;margin:4px 0;text-align:center;}
+.sp-timer-intent-lbl{font-size:6.5px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.sp-timer-intent-val{font-size:8.5px;color:rgba(255,255,255,.7);}
+.sp-timer-actions{display:flex;gap:8px;width:100%;margin-top:4px;}
+.sp-timer-btn{flex:1;padding:8px;border-radius:9px;text-align:center;font-size:7.5px;font-weight:600;}
+.sp-timer-btn.done{background:var(--accent);color:#fff;}
+.sp-timer-btn.extend{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);}
+/* screen 4: reflection */
+.sp-reflect{background:#fff;}
+.sp-reflect-header{background:var(--card-bg);padding:16px 14px;border-bottom:1px solid var(--card-border);}
+.sp-reflect-title{font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--fg);}
+.sp-reflect-sub{font-size:8px;color:var(--muted-fg);margin-top:2px;}
+.sp-reflect-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+.sp-reflect-q{font-size:9px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sp-reflect-opts{display:flex;flex-direction:column;gap:5px;}
+.sp-reflect-opt{border-radius:9px;padding:9px 11px;border:1.5px solid var(--card-border);display:flex;align-items:center;gap:7px;}
+.sp-reflect-opt.selected{border-color:var(--accent);background:var(--accent-muted);}
+.sp-reflect-opt-icon{font-size:11px;}
+.sp-reflect-opt-text{font-size:8.5px;font-weight:600;color:var(--fg);}
+.sp-reflect-opt.selected .sp-reflect-opt-text{color:var(--accent-chip-text);}
+.sp-reflect-streak{background:var(--dark);border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px;margin-top:4px;}
+.sp-reflect-streak-n{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--accent);}
+.sp-reflect-streak-lbl{font-size:8px;color:rgba(255,255,255,.5);line-height:1.5;}
+
+/* progress dots for phone */
+.how-phone-dots{display:flex;gap:6px;justify-content:center;margin-top:20px;}
+.how-phone-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);transition:background .3s;}
+.how-phone-dot.active{background:var(--accent);}
+
+/* WHY */
+.why{padding:120px 48px;background:var(--card-bg);}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.why-sub{font-size:16px;line-height:1.7;color:var(--muted-fg);margin-bottom:32px;}
+.cmp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.cmp{padding:20px;border-radius:var(--radius-xl);}
+.cmp.bad{background:var(--card);border:1px solid var(--card-border);box-shadow:var(--shadow-card);}
+.cmp.good{background:var(--fg);}
+.cmp-lbl{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;}
+.cmp.bad .cmp-lbl{color:#52525B;}
+.cmp.good .cmp-lbl{color:rgba(255,255,255,.35);}
+.cmp-title{font-size:14px;font-weight:600;margin-bottom:5px;}
+.cmp.bad .cmp-title{color:var(--fg);}
+.cmp.good .cmp-title{color:#fff;}
+.cmp-desc{font-size:13px;line-height:1.55;}
+.cmp.bad .cmp-desc{color:var(--muted-fg);}
+.cmp.good .cmp-desc{color:rgba(255,255,255,.5);}
+.research-card{background:var(--card);border-radius:var(--radius-xl);padding:36px;border:1px solid var(--card-border);box-shadow:var(--shadow-card);}
+.rq-mark{font-family:var(--font-display);font-size:72px;font-weight:700;color:var(--accent);line-height:.7;margin-bottom:18px;letter-spacing:-0.02em;}
+.rq-text{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.4;letter-spacing:-0.01em;color:var(--fg);margin-bottom:20px;}
+.rq-attr{font-size:12px;color:var(--muted-fg);border-top:1px solid var(--card-border);padding-top:16px;line-height:1.5;}
+
+/* PHILOSOPHY */
+.phil{padding:120px 48px;background:var(--bg);}
+.phil-hd{max-width:540px;margin-bottom:52px;}
+.phil-sub{font-size:16px;color:var(--muted-fg);line-height:1.7;margin-top:14px;}
+.phil-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.phil-card{background:var(--card);border-radius:var(--radius-xl);padding:32px;border:1px solid var(--card-border);box-shadow:var(--shadow-card);}
+.phil-n{font-family:var(--font-display);font-size:36px;font-weight:700;letter-spacing:-0.02em;color:var(--accent);opacity:.5;line-height:1;margin-bottom:18px;}
+.phil-title{font-size:16px;font-weight:600;color:var(--fg);margin-bottom:10px;}
+.phil-body{font-size:14px;color:var(--muted-fg);line-height:1.7;}
+
+/* CHIPS */
+.chips-strip{padding:52px 48px;background:var(--card-bg);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);}
+.chips-kicker{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#52525B;margin-bottom:18px;}
+.chips{display:flex;flex-wrap:wrap;gap:10px;}
+.chip{padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;}
+.chip.mint{background:var(--accent-muted);color:var(--accent-chip-text);}
+.chip.tan{background:var(--chip-tan-bg);color:var(--chip-tan-text);}
+
+/* BENEFIT MODEL */
+.benefit{padding:120px 48px;background:var(--dark);}
+.benefit-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.benefit-body{font-size:16px;line-height:1.7;color:rgba(255,255,255,.42);margin-bottom:36px;}
+.benefit-feats{display:flex;flex-direction:column;gap:16px;}
+.benefit-feat{display:flex;gap:14px;align-items:flex-start;}
+.benefit-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:9px;}
+.benefit-ft{font-size:15px;color:rgba(255,255,255,.52);line-height:1.65;}
+.benefit-ft strong{color:#fff;font-weight:600;}
+
+/* benefit card */
+.benefit-card{background:rgba(255,255,255,.04);border-radius:var(--radius-xl);padding:28px;border:1px solid rgba(255,255,255,.07);}
+.benefit-card-hd{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06);}
+.benefit-card-label{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:8px;}
+.benefit-card-title{font-size:15px;font-weight:600;color:#fff;}
+.benefit-tiers{display:flex;flex-direction:column;gap:8px;}
+.benefit-tier{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:var(--radius-lg);}
+.benefit-tier-l{display:flex;align-items:center;gap:10px;}
+.benefit-tier-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:11px;font-weight:700;color:#fff;}
+.benefit-tier-name{font-size:13px;color:#fff;}
+.benefit-tier-sub{font-size:11px;color:rgba(255,255,255,.28);margin-top:2px;}
+.benefit-badge{font-size:10px;padding:4px 10px;border-radius:999px;font-weight:600;}
+.benefit-badge.included{background:rgba(16,185,129,.16);color:var(--accent);}
+.benefit-badge.free{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);}
+
+/* CTA */
+.cta{padding:120px 48px;background:var(--bg);}
+.cta-inner{max-width:620px;margin:0 auto;text-align:center;}
+.cta-h2{font-family:var(--font-display);font-size:clamp(34px,5vw,58px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:var(--fg);margin-bottom:20px;}
+.cta-h2 em{font-style:normal;color:var(--accent);}
+.cta-sub{font-size:18px;color:var(--muted-fg);line-height:1.65;margin-bottom:44px;}
+.cta-btns{display:flex;gap:12px;justify-content:center;}
+.btn-black{padding:16px 32px;min-height:60px;background:var(--fg);color:#fff;border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;transition:opacity .15s;}
+.btn-black:hover{opacity:.88;}
+.btn-outline{padding:16px 32px;min-height:60px;background:transparent;color:var(--fg);border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;border:1px solid var(--border);transition:background .15s;}
+.btn-outline:hover{background:var(--card-bg);}
+.cta-note{margin-top:20px;font-size:12px;color:var(--muted-fg);}
+
+footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.06);}
+.footer-logo{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-0.03em;color:#fff;}
+.footer-logo span{color:var(--accent);}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:rgba(255,255,255,.6);}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.18);}
+
+/* ===== DEMO MODAL ===== */
+.modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+.modal-backdrop.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:480px;padding:40px;box-shadow:0 32px 80px rgba(0,0,0,.25);transform:translateY(16px) scale(.98);transition:transform .25s ease;position:relative;}
+.modal-backdrop.open .modal{transform:translateY(0) scale(1);}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--card-bg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted-fg);font-size:16px;transition:background .15s;}
+.modal-close:hover{background:var(--card-border);}
+.modal-kicker{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.modal-title{font-family:var(--font-display);font-size:26px;font-weight:700;letter-spacing:-0.02em;color:var(--fg);margin-bottom:8px;line-height:1.15;}
+.modal-sub{font-size:14px;color:var(--muted-fg);margin-bottom:28px;line-height:1.6;}
+.modal-form{display:flex;flex-direction:column;gap:14px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:13px;font-weight:600;color:var(--fg);}
+.form-input{padding:12px 14px;border-radius:10px;border:1.5px solid var(--card-border);font-size:14px;font-family:var(--font-sans);color:var(--fg);background:#fff;transition:border-color .15s;outline:none;appearance:none;}
+.form-input:focus{border-color:var(--accent);}
+.form-input::placeholder{color:#aaa;}
+.form-select{padding:12px 14px;border-radius:10px;border:1.5px solid var(--card-border);font-size:14px;font-family:var(--font-sans);color:var(--fg);background:#fff;cursor:pointer;transition:border-color .15s;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235C5C6E' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.form-select:focus{border-color:var(--accent);}
+.form-submit{padding:16px;background:var(--fg);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:opacity .15s;margin-top:4px;}
+.form-submit:hover{opacity:.88;}
+.form-submit:disabled{opacity:.5;cursor:not-allowed;}
+.modal-note{font-size:12px;color:var(--muted-fg);text-align:center;margin-top:8px;}
+
+/* success state */
+.modal-success{display:none;flex-direction:column;align-items:center;text-align:center;padding:20px 0;}
+.modal-success.visible{display:flex;}
+.modal-success-icon{width:56px;height:56px;border-radius:50%;background:var(--accent-muted);border:1.5px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.modal-success-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--fg);margin-bottom:10px;letter-spacing:-0.01em;}
+.modal-success-body{font-size:15px;color:var(--muted-fg);line-height:1.65;max-width:320px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Return to <span>Now</span></div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#why">Why it works</a>
+    <a href="#benefit">The benefit</a>
+    <a href="#cta" class="nav-cta">Request a demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-kicker">Digital wellness benefit</div>
+      <h1 class="hero-h1">Give your team the gift of <em>their attention back.</em></h1>
+      <p class="hero-sub">Return to Now is a digital wellness benefit that helps employees build a healthier relationship with social media — on their terms, for their reasons. No surveillance. No pressure. Just genuine support.</p>
+      <div class="hero-btns">
+        <a href="#cta" class="btn-green">Request a demo</a>
+        <a href="#how" class="btn-ghost">See how it works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-n">33</div>
+          <div class="hstat-l">days a year lost to social media, per person</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">2.5×</div>
+          <div class="hstat-l">higher anxiety in heavy social media users</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">92%</div>
+          <div class="hstat-l">of people say they want to use their phone less</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-body">
+          <div class="ph-mono">Return to Now</div>
+          <div class="ph-widget">
+            <div class="ph-widget-hd">
+              <div class="ph-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v3M5 6v3M1 5h3M6 5h3" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+              <div>
+                <div class="ph-wname">Return to <span>Now</span></div>
+                <div class="ph-wsub">Your apps, with intention</div>
+              </div>
+            </div>
+            <div class="ph-apps">
+              <div class="ph-app"><div class="ph-app-ic" style="background:linear-gradient(135deg,#F77737,#C13584);">Ig</div><div class="ph-app-lbl">Instagram</div></div>
+              <div class="ph-app"><div class="ph-app-ic" style="background:#000;">Tk</div><div class="ph-app-lbl">TikTok</div></div>
+              <div class="ph-app"><div class="ph-app-ic" style="background:#f00;">Yt</div><div class="ph-app-lbl">YouTube</div></div>
+              <div class="ph-app"><div class="ph-app-ic" style="background:#111;">X</div><div class="ph-app-lbl">X</div></div>
+            </div>
+          </div>
+          <div class="ph-int">
+            <div class="ph-int-q">Before you open Instagram...</div>
+            <div class="ph-int-txt">Stay connected with people I care about</div>
+          </div>
+          <div class="ph-acts">
+            <div class="ph-act"><div class="ph-act-dot"></div>Time with family</div>
+            <div class="ph-act"><div class="ph-act-dot"></div>Work on something I'm proud of</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="sw">
+    <div class="prob-grid">
+      <div>
+        <div class="kicker">The problem</div>
+        <h2 class="sec-h2">Your team is struggling with social media. <em>It isn't a willpower problem.</em></h2>
+        <div class="body-copy">
+          <p>The apps on your employees' phones have one goal: keep them scrolling. Every notification, every autoplay video, every infinite feed is engineered by teams of behavioral scientists to hold attention as long as possible.</p>
+          <p>This takes a real toll — on sleep, on anxiety, on the ability to be present with the people they love. And it affects every dimension of their lives, including how they feel when they come to work.</p>
+          <p>You can't legislate this away. But you can give your people something that actually helps — a tool built on behavioral science that puts them back in control.</p>
+        </div>
+      </div>
+      <div class="prob-right">
+        <div class="stat-dark">
+          <div class="stat-dark-n">3–4</div>
+          <div class="stat-dark-u">hours per day</div>
+          <div class="stat-dark-d">The average person spends 3 to 4 hours daily on social media. That's more time than most people spend with their families — and your employees are no exception.</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-mini">
+            <div class="stat-mini-n">70%</div>
+            <div class="stat-mini-l">increase in depression and anxiety linked to heavy social media use</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-n">47min</div>
+            <div class="stat-mini-l">average cognitive focus lost after a single social media session</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — STICKY SCROLL -->
+<section class="how" id="how">
+  <div class="sw">
+    <div class="how-intro">
+      <div class="kicker light">How it works</div>
+      <h2 class="sec-h2 white">A few small interventions that <em>actually change behavior.</em></h2>
+    </div>
+    <div class="how-scroll-section">
+
+      <!-- Left: scrolling steps -->
+      <div class="how-steps-col" id="howStepsCol">
+
+        <div class="how-step-item" data-step="0">
+          <div class="how-step-num">Step 01</div>
+          <h3 class="how-step-title">The widget <em>intercepts the reflex.</em></h3>
+          <p class="how-step-body">A home screen widget replaces social app icons. The moment your employee reaches for Instagram or TikTok, they see Return to Now first. That single pause is enough to break the automatic grab-and-scroll cycle before the app ever opens.</p>
+          <div class="how-step-detail">
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>One moment of friction</strong> is all it takes to interrupt an automatic behavior and return choice to the user.</div></div>
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>No content is blocked.</strong> The app is still one tap away. The goal is awareness, not restriction.</div></div>
+          </div>
+        </div>
+
+        <div class="how-step-item" data-step="1">
+          <div class="how-step-num">Step 02</div>
+          <h3 class="how-step-title">They set an <em>intention before opening.</em></h3>
+          <p class="how-step-body">If they choose to open the app, they say why. A quick prompt asks what they're looking for — and reminds them of the things they said matter most to them. Then they set a time limit and proceed.</p>
+          <div class="how-step-detail">
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Intentions are personal.</strong> Each employee decides for themselves what they want more of. Nothing is prescribed.</div></div>
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Time limits are self-set,</strong> not enforced. The app trusts the person to follow through.</div></div>
+          </div>
+        </div>
+
+        <div class="how-step-item" data-step="2">
+          <div class="how-step-num">Step 03</div>
+          <h3 class="how-step-title">A timer keeps them <em>honest with themselves.</em></h3>
+          <p class="how-step-body">While using the app, a quiet background timer runs. When time is up, Return to Now asks if they're done — or if they want to extend. It's not a hard wall. It's a gentle, persistent reminder of the commitment they made to themselves.</p>
+          <div class="how-step-detail">
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>No hard cutoffs.</strong> The employee stays in control at every moment. The app nudges, not nags.</div></div>
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Session data stays private.</strong> Usage details are never visible to the employer.</div></div>
+          </div>
+        </div>
+
+        <div class="how-step-item" data-step="3">
+          <div class="how-step-num">Step 04</div>
+          <h3 class="how-step-title">A quick check-in builds <em>self-awareness over time.</em></h3>
+          <p class="how-step-body">After a session, a brief reflection prompt asks how it went. Did they stick to their intention? Over time, this builds genuine insight into their own patterns — and their own motivation to change. No score, no shame.</p>
+          <div class="how-step-detail">
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Progress is personal.</strong> Streaks and patterns are shown only to the user.</div></div>
+            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Gradual habit change</strong> compounds. Small daily wins add up to a meaningfully different relationship with their phone.</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: sticky phone -->
+      <div class="how-phone-col">
+        <div class="how-phone-wrap">
+          <div class="how-phone-frame" id="howPhoneFrame">
+            <div class="how-phone-notch"></div>
+
+            <!-- Screen 0: Widget on home screen -->
+            <div class="how-screen active" id="screen-0">
+              <div class="screen-placeholder sp-homescreen">
+                <div class="sp-statusbar" style="background:rgba(255,255,255,.08);">
+                  <span class="sp-statusbar-time" style="color:rgba(255,255,255,.5);">9:41</span>
+                </div>
+                <div class="sp-content">
+                  <!-- placeholder app icons row -->
+                  <div class="sp-app-icon" style="background:rgba(255,255,255,.06);border-radius:14px;"><span style="font-size:18px;">📷</span><span class="sp-app-icon-lbl">Camera</span></div>
+                  <!-- widget overlay spanning full width -->
+                  <div class="sp-widget-overlay" style="grid-column:1/-1;">
+                    <div class="sp-widget-hd">
+                      <div class="sp-widget-dot"></div>
+                      <div>
+                        <div class="sp-widget-title" style="font-family:var(--font-display);font-size:9px;font-weight:700;">Return to <span style="color:var(--accent);">Now</span></div>
+                      </div>
+                    </div>
+                    <div style="font-size:7.5px;color:var(--muted-fg);margin-bottom:8px;font-weight:500;">Open with intention →</div>
+                    <div class="sp-widget-apps">
+                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:linear-gradient(135deg,#F77737,#C13584);border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">Instagram</div></div>
+                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:#000;border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">TikTok</div></div>
+                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:#f00;border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">YouTube</div></div>
+                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:#111;border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">X</div></div>
+                    </div>
+                  </div>
+                  <!-- placeholder screenshot note -->
+                  <div style="grid-column:1/-1;background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:9px;padding:8px;text-align:center;">
+                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
+                    <div style="font-size:6.5px;color:rgba(255,255,255,.3);margin-top:2px;">Home screen widget view</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screen 1: Intention setting -->
+            <div class="how-screen" id="screen-1">
+              <div class="screen-placeholder sp-intention">
+                <div class="sp-statusbar"><span class="sp-statusbar-time">9:41</span></div>
+                <div class="sp-int-header">
+                  <div class="sp-int-app-row" style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                    <div class="sp-int-app-ic" style="background:linear-gradient(135deg,#F77737,#C13584);">Ig</div>
+                    <span class="sp-int-app-name">Opening Instagram</span>
+                  </div>
+                  <div class="sp-int-q">Why are you opening this right now?</div>
+                </div>
+                <div class="sp-int-body">
+                  <div class="sp-int-option selected">
+                    <div class="sp-int-opt-text">Stay connected with people I care about</div>
+                    <div class="sp-int-opt-sub">Check in on family &amp; friends</div>
+                  </div>
+                  <div class="sp-int-option">
+                    <div class="sp-int-opt-text">I just need a quick break</div>
+                    <div class="sp-int-opt-sub">10 minutes, then back to it</div>
+                  </div>
+                  <div class="sp-int-option">
+                    <div class="sp-int-opt-text">Something else</div>
+                    <div class="sp-int-opt-sub">Set your own intention</div>
+                  </div>
+                  <div style="background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:8px;padding:7px;text-align:center;margin-top:4px;">
+                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
+                    <div style="font-size:6px;color:var(--muted-fg);margin-top:1px;">Intention prompt screen</div>
+                  </div>
+                </div>
+                <div class="sp-int-cta">Open Instagram →</div>
+              </div>
+            </div>
+
+            <!-- Screen 2: Session timer -->
+            <div class="how-screen" id="screen-2">
+              <div class="screen-placeholder sp-timer">
+                <div class="sp-statusbar" style="background:rgba(255,255,255,.04);">
+                  <span class="sp-statusbar-time" style="color:rgba(255,255,255,.4);">9:41</span>
+                </div>
+                <div class="sp-timer-content">
+                  <div class="sp-timer-app-row">
+                    <div class="sp-timer-app-ic" style="background:linear-gradient(135deg,#F77737,#C13584);">Ig</div>
+                    <span class="sp-timer-app-name">Instagram · Active</span>
+                  </div>
+                  <div class="sp-timer-circle">
+                    <div>
+                      <div class="sp-timer-n">8:24</div>
+                      <div class="sp-timer-unit">remaining</div>
+                    </div>
+                  </div>
+                  <div class="sp-timer-label">of your 10 min intention</div>
+                  <div class="sp-timer-intent">
+                    <div class="sp-timer-intent-lbl">Your intention</div>
+                    <div class="sp-timer-intent-val">Stay connected with people I care about</div>
+                  </div>
+                  <div style="background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:8px;padding:7px;text-align:center;width:100%;">
+                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
+                    <div style="font-size:6px;color:rgba(255,255,255,.3);margin-top:1px;">Session timer view</div>
+                  </div>
+                  <div class="sp-timer-actions">
+                    <div class="sp-timer-btn done">I'm done</div>
+                    <div class="sp-timer-btn extend">+5 min</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screen 3: Reflection -->
+            <div class="how-screen" id="screen-3">
+              <div class="screen-placeholder sp-reflect">
+                <div class="sp-statusbar"><span class="sp-statusbar-time">9:51</span></div>
+                <div class="sp-reflect-header">
+                  <div class="sp-reflect-title">How did that go?</div>
+                  <div class="sp-reflect-sub">Instagram · 10 minutes</div>
+                </div>
+                <div class="sp-reflect-body">
+                  <div class="sp-reflect-q">Did you stick to your intention?</div>
+                  <div class="sp-reflect-opts">
+                    <div class="sp-reflect-opt selected">
+                      <span class="sp-reflect-opt-icon">✓</span>
+                      <span class="sp-reflect-opt-text">Yes — I'm done, felt intentional</span>
+                    </div>
+                    <div class="sp-reflect-opt">
+                      <span class="sp-reflect-opt-icon">↩</span>
+                      <span class="sp-reflect-opt-text">Kind of — got a bit distracted</span>
+                    </div>
+                    <div class="sp-reflect-opt">
+                      <span class="sp-reflect-opt-icon">✕</span>
+                      <span class="sp-reflect-opt-text">No — I got sucked in</span>
+                    </div>
+                  </div>
+                  <div class="sp-reflect-streak">
+                    <div class="sp-reflect-streak-n">5</div>
+                    <div class="sp-reflect-streak-lbl">day intentional<br>streak 🔥</div>
+                  </div>
+                  <div style="background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:8px;padding:7px;text-align:center;">
+                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
+                    <div style="font-size:6px;color:var(--muted-fg);margin-top:1px;">Post-session reflection</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="how-phone-dots" id="howDots">
+            <div class="how-phone-dot active"></div>
+            <div class="how-phone-dot"></div>
+            <div class="how-phone-dot"></div>
+            <div class="how-phone-dot"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY IT WORKS -->
+<section class="why" id="why">
+  <div class="sw">
+    <div class="why-grid">
+      <div>
+        <div class="kicker">Why it works</div>
+        <h2 class="sec-h2">Other apps block access. We help people <em>replace the habit.</em></h2>
+        <p class="why-sub">Blunt restrictions work until they don't. Employees delete focus-blocking apps within a week because nothing fills the void. Return to Now is built on a fundamentally different premise.</p>
+        <div class="cmp-row">
+          <div class="cmp bad">
+            <div class="cmp-lbl">Focus blockers</div>
+            <div class="cmp-title">Block access cold</div>
+            <div class="cmp-desc">No replacement habit. Willpower depletes. Most users delete them within a week.</div>
+          </div>
+          <div class="cmp good">
+            <div class="cmp-lbl">Return to Now</div>
+            <div class="cmp-title">Replace the habit</div>
+            <div class="cmp-desc">Help employees connect their phone time to what actually matters to them. Change because they want to.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="research-card">
+          <div class="rq-mark">"</div>
+          <p class="rq-text">You're significantly more likely to follow through on a goal when you have a specific plan — not just the intention, but the when, where, and why.</p>
+          <div class="rq-attr">Based on implementation intention research by Dr. Peter Gollwitzer, NYU. The behavioral science principle behind Return to Now's core mechanic.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="phil">
+  <div class="sw">
+    <div class="phil-hd">
+      <div class="kicker">The philosophy</div>
+      <h2 class="sec-h2">Built on behavioral science, not willpower.</h2>
+      <p class="phil-sub">Every feature in Return to Now is grounded in research on how people actually change their habits — not how we wish they would.</p>
+    </div>
+    <div class="phil-grid">
+      <div class="phil-card">
+        <div class="phil-n">01</div>
+        <div class="phil-title">Pattern interruption</div>
+        <p class="phil-body">The widget creates a deliberate pause between the impulse and the action. That single moment of friction is enough to disrupt automatic behavior and return control to the employee.</p>
+      </div>
+      <div class="phil-card">
+        <div class="phil-n">02</div>
+        <div class="phil-title">Habit replacement</div>
+        <p class="phil-body">Employees identify what they want more time for before they restrict anything. The alternative is ready before the craving hits — replacing a behavior, not just removing one.</p>
+      </div>
+      <div class="phil-card">
+        <div class="phil-n">03</div>
+        <div class="phil-title">Implementation intentions</div>
+        <p class="phil-body">Stating "I will do X when Y happens" dramatically improves follow-through. Every intention set in Return to Now is a small, specific plan — which is exactly what makes them stick.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHIPS -->
+<div class="chips-strip">
+  <div class="sw">
+    <div class="chips-kicker">What your employees will make time for</div>
+    <div class="chips">
+      <span class="chip mint">Be more present with the people I love</span>
+      <span class="chip tan">Work on something I'm proud of</span>
+      <span class="chip mint">Take better care of myself</span>
+      <span class="chip tan">Write in my journal</span>
+      <span class="chip mint">Read more books</span>
+      <span class="chip tan">Learn a new skill</span>
+      <span class="chip mint">Spend more time outside</span>
+      <span class="chip tan">Cook real meals</span>
+    </div>
+  </div>
+</div>
+
+<!-- BENEFIT MODEL -->
+<section class="benefit" id="benefit">
+  <div class="sw">
+    <div class="benefit-grid">
+      <div>
+        <div class="kicker light">The benefit</div>
+        <h2 class="sec-h2 white">A wellness benefit your employees will actually <em>want to use.</em></h2>
+        <p class="benefit-body">Return to Now is offered as an employer-sponsored benefit. Your organization covers employee access — and each employee gets additional licenses to share with family and friends, so they're never on the journey alone.</p>
+        <div class="benefit-feats">
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Simple rollout.</strong> Employees download the app and activate their seat with a company code. No IT integration required.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Each employee gets extra licenses</strong> to invite the people in their life — a partner, a sibling, a friend. Sponsored by you, at no cost to them.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Aggregate participation data only.</strong> You see enrollment numbers. You never see individual usage or session details.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Your brand, front and center.</strong> Employees see your organization's name as the sponsor — a clear, visible signal that you invest in their wellbeing.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="benefit-card">
+          <div class="benefit-card-hd">
+            <div class="benefit-card-label">Included in every seat</div>
+            <div class="benefit-card-title">What your team gets</div>
+          </div>
+          <div class="benefit-tiers">
+            <div class="benefit-tier">
+              <div class="benefit-tier-l">
+                <div class="benefit-tier-ic" style="background:#163d28;">A</div>
+                <div>
+                  <div class="benefit-tier-name">Employee</div>
+                  <div class="benefit-tier-sub">Full app access</div>
+                </div>
+              </div>
+              <span class="benefit-badge included">Included</span>
+            </div>
+            <div class="benefit-tier">
+              <div class="benefit-tier-l">
+                <div class="benefit-tier-ic" style="background:#1a2e1a;">+</div>
+                <div>
+                  <div class="benefit-tier-name">Partner or spouse</div>
+                  <div class="benefit-tier-sub">Invited by employee</div>
+                </div>
+              </div>
+              <span class="benefit-badge free">Free license</span>
+            </div>
+            <div class="benefit-tier">
+              <div class="benefit-tier-l">
+                <div class="benefit-tier-ic" style="background:#2a2016;">+</div>
+                <div>
+                  <div class="benefit-tier-name">Friend or family member</div>
+                  <div class="benefit-tier-sub">Invited by employee</div>
+                </div>
+              </div>
+              <span class="benefit-badge free">Free license</span>
+            </div>
+            <div style="padding:14px 16px;background:rgba(16,185,129,.08);border-radius:var(--radius-lg);border:1px solid rgba(16,185,129,.2);margin-top:4px;">
+              <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;">Each additional license is covered by your organization. Employees see it as a benefit extended to the people they love — which is exactly what it is.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="cta-inner">
+    <div class="kicker" style="text-align:center;">Get started</div>
+    <h2 class="cta-h2">Your people deserve a benefit that <em>actually helps.</em></h2>
+    <p class="cta-sub">We'd love to show you how Return to Now works and talk through what a rollout would look like for your organization. No pressure — just a conversation.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-black">Request a demo</a>
+      <a href="#" class="btn-outline">Download the overview</a>
+    </div>
+    <p class="cta-note">Typically a 30-minute call. We'll follow up within one business day.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Return to <span>Now</span></div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Support</a>
+    <a href="#">Press</a>
+  </div>
+  <div class="footer-copy">© 2025 Return to Now</div>
+</footer>
+
+<!-- DEMO REQUEST MODAL -->
+<div class="modal-backdrop" id="demoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">&#x2715;</button>
+    <div id="modalFormState">
+      <div class="modal-kicker">Request a demo</div>
+      <h2 class="modal-title" id="modalTitle">Let's find a time to talk.</h2>
+      <p class="modal-sub">Tell us a bit about your organization and we'll follow up within one business day to schedule a 30-minute call.</p>
+      <form class="modal-form" id="demoForm">
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label" for="firstName">First name</label>
+            <input class="form-input" type="text" id="firstName" name="firstName" placeholder="Alex" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="workEmail">Work email</label>
+            <input class="form-input" type="email" id="workEmail" name="email" placeholder="alex@company.com" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="company">Company name</label>
+          <input class="form-input" type="text" id="company" name="company" placeholder="Acme Inc." required>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="teamSize">Team size</label>
+          <select class="form-select" id="teamSize" name="teamSize" required>
+            <option value="" disabled selected>Select team size</option>
+            <option value="1-50">1-50 employees</option>
+            <option value="51-200">51-200 employees</option>
+            <option value="201-500">201-500 employees</option>
+            <option value="501-1000">501-1,000 employees</option>
+            <option value="1001+">1,001+ employees</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="message">Anything you'd like us to know? <span style="font-weight:400;color:var(--muted-fg);">(optional)</span></label>
+          <textarea class="form-input" id="message" name="message" placeholder="Context about your team, timing, specific questions..." rows="3" style="resize:vertical;line-height:1.6;"></textarea>
+        </div>
+        <button class="form-submit" type="submit" id="formSubmit">Request a demo</button>
+        <p class="modal-note">No spam. No hard sell. Just a conversation.</p>
+      </form>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="modal-success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="modal-success-title">You're on the list.</div>
+      <p class="modal-success-body">We'll be in touch within one business day to find a time that works. Talk soon.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Sticky scroll
+const stepItems = document.querySelectorAll('.how-step-item');
+const screens = document.querySelectorAll('.how-screen');
+const dots = document.querySelectorAll('.how-phone-dot');
+
+function setActiveScreen(index) {
+  screens.forEach((s, i) => s.classList.toggle('active', i === index));
+  dots.forEach((d, i) => d.classList.toggle('active', i === index));
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) setActiveScreen(parseInt(entry.target.dataset.step));
+  });
+}, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+
+stepItems.forEach(item => observer.observe(item));
+
+// Modal
+const modal = document.getElementById('demoModal');
+const modalClose = document.getElementById('modalClose');
+const demoForm = document.getElementById('demoForm');
+const formSubmit = document.getElementById('formSubmit');
+const modalFormState = document.getElementById('modalFormState');
+const modalSuccess = document.getElementById('modalSuccess');
+
+function openModal() {
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Wire every demo CTA
+document.querySelectorAll('.nav-cta, .btn-green, .btn-black').forEach(el => {
+  el.addEventListener('click', e => { e.preventDefault(); openModal(); });
+});
+
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+modalClose.addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Formspree submission
+demoForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  formSubmit.disabled = true;
+  formSubmit.textContent = 'Sending...';
+  try {
+    const res = await fetch('https://formspree.io/f/mlgaoeog', {
+      method: 'POST',
+      body: new FormData(demoForm),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      modalFormState.style.display = 'none';
+      modalSuccess.classList.add('visible');
+    } else {
+      formSubmit.disabled = false;
+      formSubmit.textContent = 'Something went wrong — try again';
+    }
+  } catch {
+    formSubmit.disabled = false;
+    formSubmit.textContent = 'Something went wrong — try again';
+  }
+});
+</script>
+</body>
+</html>
