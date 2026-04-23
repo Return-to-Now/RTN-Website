@@ -66,18 +66,28 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .hero-inner{max-width:900px;margin:0 auto;width:100%;text-align:center;}
 .hero-h1{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#fff;margin-bottom:64px;}
 .hero-h1 em{font-style:normal;color:var(--accent);}
-.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;text-align:center;}
+.hero-stats-wrap{width:100%;}
+.hero-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;text-align:center;}
+.hero-stats-mobile{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:280px;text-align:center;}
 .hstat-n{font-family:var(--font-display);font-size:clamp(56px,8vw,96px);font-weight:700;letter-spacing:-0.02em;color:#fff;line-height:1;margin-bottom:16px;}
+.hstat-n--mobile{font-size:clamp(52px,16vw,64px);}
 .hstat-l{font-size:16px;line-height:1.625;color:rgba(255,255,255,.4);opacity:0;filter:blur(12px);transition:opacity .7s ease, filter .7s ease;}
+.hstat-l--mobile{max-width:320px;margin-left:auto;margin-right:auto;padding:0 16px;}
 .hstat-l.is-visible{opacity:1;filter:blur(0);}
+.hero-stats-dots{display:flex;gap:8px;justify-content:center;margin-top:32px;}
+.hero-stat-dot{width:8px;height:8px;border-radius:50%;padding:0;border:none;background:rgba(255,255,255,.2);cursor:pointer;transition:background .3s ease;}
+.hero-stat-dot:hover,.hero-stat-dot:focus-visible{background:rgba(255,255,255,.35);}
+.hero-stat-dot.is-active{background:var(--accent);}
+.hero-stat-dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 .hero-sub{font-size:18px;line-height:1.65;color:rgba(255,255,255,.45);max-width:760px;margin:64px auto 40px;}
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
 .btn-green{padding:16px 28px;min-height:60px;background:var(--accent);color:#fff;border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;transition:opacity .15s;}
 .btn-green:hover{opacity:.9;}
 .btn-ghost{padding:16px 28px;min-height:60px;background:transparent;color:rgba(255,255,255,.55);border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.14);transition:background .15s,color .15s;}
 .btn-ghost:hover{background:rgba(255,255,255,.07);}
-@media (max-width:720px){
-  .hero-stats{grid-template-columns:1fr;gap:40px;}
+@media (max-width:767px){
+  .hero-stats-grid{display:none;}
+  .hero-stats-mobile{display:flex;}
 }
 
 /* SHARED */
@@ -185,7 +195,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .how-phone-wrap{position:relative;width:260px;}
 
 /* phone frame for how section */
-.how-phone-frame{width:260px;height:530px;background:#111;border-radius:38px;border:7px solid #1e1e1e;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.05);position:relative;}
+.how-phone-frame{width:260px;height:530px;background:#111;border-radius:38px;border:7px solid #2e2e2e;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1);position:relative;}
 .how-phone-notch{width:72px;height:18px;background:#111;border-radius:0 0 11px 11px;margin:0 auto;position:relative;z-index:2;}
 
 /* screenshot slots */
@@ -406,18 +416,27 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 <section class="hero" id="hero">
   <div class="hero-inner">
     <h1 class="hero-h1">Give your team the gift of <em>their attention back.</em></h1>
-    <div class="hero-stats" id="heroStats" aria-label="Key statistics">
-      <div class="hstat" data-hero-stat data-value="33" data-suffix="">
-        <div class="hstat-n" aria-live="polite">0</div>
-        <div class="hstat-l">days a year lost to social media on average</div>
+    <div class="hero-stats-wrap" id="heroStats" aria-label="Key statistics">
+      <div class="hero-stats-grid" id="heroStatsGrid">
+        <div class="hstat" data-hero-stat data-value="33" data-suffix="">
+          <div class="hstat-n" aria-live="polite">0</div>
+          <div class="hstat-l">days a year lost to social media on average</div>
+        </div>
+        <div class="hstat" data-hero-stat data-value="2.5" data-suffix="×">
+          <div class="hstat-n" aria-live="polite">0</div>
+          <div class="hstat-l">higher anxiety in heavy social media users</div>
+        </div>
+        <div class="hstat" data-hero-stat data-value="92" data-suffix="%">
+          <div class="hstat-n" aria-live="polite">0</div>
+          <div class="hstat-l">of people say they want to use their phone less</div>
+        </div>
       </div>
-      <div class="hstat" data-hero-stat data-value="2.5" data-suffix="×">
-        <div class="hstat-n" aria-live="polite">0</div>
-        <div class="hstat-l">higher anxiety in heavy social media users</div>
-      </div>
-      <div class="hstat" data-hero-stat data-value="92" data-suffix="%">
-        <div class="hstat-n" aria-live="polite">0</div>
-        <div class="hstat-l">of people say they want to use their phone less</div>
+      <div class="hero-stats-mobile" id="heroStatsMobile" role="region" aria-roledescription="carousel" aria-label="Key statistics">
+        <div class="hstat hstat--cycle" id="heroStatCycle" data-value="" data-suffix="">
+          <div class="hstat-n hstat-n--mobile" id="heroStatCycleNum" aria-live="polite">0</div>
+          <div class="hstat-l hstat-l--mobile" id="heroStatCycleLabel"></div>
+        </div>
+        <div class="hero-stats-dots" id="heroStatsDots" role="group" aria-label="Choose statistic"></div>
       </div>
     </div>
     <p class="hero-sub">Return to Now is a digital wellness benefit that helps your team build healthier digital habits. No surveillance. No pressure. Just genuine support.</p>
@@ -896,69 +915,223 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 </div>
 
 <script>
-// Hero stat count-up (Figma design)
+// Hero stats: grid on wide viewports; one metric at a time + dots on narrow (≤767px)
 (function () {
   const root = document.getElementById('hero');
-  const blocks = document.querySelectorAll('[data-hero-stat]');
-  if (!root || !blocks.length) return;
+  const grid = document.getElementById('heroStatsGrid');
+  const cycleBlock = document.getElementById('heroStatCycle');
+  const cycleNum = document.getElementById('heroStatCycleNum');
+  const cycleLabel = document.getElementById('heroStatCycleLabel');
+  const dotsWrap = document.getElementById('heroStatsDots');
+  if (!root || !grid || !cycleBlock || !cycleNum || !cycleLabel || !dotsWrap) return;
 
-  const COUNT_MS = 1800;
+  const blocks = grid.querySelectorAll('[data-hero-stat]');
+  if (!blocks.length) return;
+
+  const mq = window.matchMedia('(max-width: 767px)');
+  const COUNT_MS_DESKTOP = 1800;
+  const COUNT_MS_MOBILE = 1500;
   const STAGGER_MS = 200;
   const LABEL_PAUSE_MS = 200;
+  const MOBILE_ROTATE_MS = 4000;
 
-  let ran = false;
+  const stats = Array.from(blocks).map((block) => ({
+    value: parseFloat(block.dataset.value),
+    suffix: block.dataset.suffix || '',
+    label: (block.querySelector('.hstat-l') && block.querySelector('.hstat-l').textContent.trim()) || '',
+  }));
+
   function format(val, suffix) {
     if (suffix === '×') return val.toFixed(1) + suffix;
     return Math.round(val) + suffix;
   }
-  function runStat(block, delay) {
-    const value = parseFloat(block.dataset.value);
-    const suffix = block.dataset.suffix || '';
-    const numEl = block.querySelector('.hstat-n');
-    if (!numEl || Number.isNaN(value)) return;
 
+  let mode = 'idle';
+  let heroEntered = false;
+  let desktopRan = false;
+  let mobileRotateTimer = null;
+  let cancelMobileCount = null;
+  let dotButtons = [];
+
+  function isNarrow() {
+    return mq.matches;
+  }
+
+  function stopMobile() {
+    if (mobileRotateTimer) {
+      clearInterval(mobileRotateTimer);
+      mobileRotateTimer = null;
+    }
+    if (cancelMobileCount) {
+      cancelMobileCount();
+      cancelMobileCount = null;
+    }
+  }
+
+  function runCountUp(numEl, value, suffix, durationMs, onDone, shouldContinue) {
+    if (!numEl || Number.isNaN(value)) return function () {};
     const steps = 60;
     const increment = value / steps;
     let step = 0;
-
-    setTimeout(() => {
-      numEl.textContent = format(0, suffix);
-
-      const interval = setInterval(() => {
-        step++;
-        if (step <= steps) {
-          numEl.textContent = format(increment * step, suffix);
-        } else {
-          clearInterval(interval);
-          numEl.textContent = format(value, suffix);
-        }
-      }, COUNT_MS / steps);
-    }, delay);
+    numEl.textContent = format(0, suffix);
+    const interval = setInterval(function () {
+      if (shouldContinue && !shouldContinue()) {
+        clearInterval(interval);
+        return;
+      }
+      step++;
+      if (step <= steps) {
+        numEl.textContent = format(Math.min(increment * step, value), suffix);
+      } else {
+        clearInterval(interval);
+        numEl.textContent = format(value, suffix);
+        if (onDone) onDone();
+      }
+    }, durationMs / steps);
+    return function () {
+      clearInterval(interval);
+    };
   }
 
-  function start() {
-    if (ran) return;
-    ran = true;
-    blocks.forEach((block) => {
-      const labelEl = block.querySelector('.hstat-l');
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    dotButtons = stats.map((_, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'hero-stat-dot';
+      btn.setAttribute('aria-label', 'Statistic ' + (i + 1) + ' of ' + stats.length);
+      btn.addEventListener('click', function () {
+        showMobileStat(i);
+        restartMobileRotation();
+      });
+      dotsWrap.appendChild(btn);
+      return btn;
+    });
+  }
+
+  function setActiveDot(i) {
+    dotButtons.forEach((b, j) => {
+      const on = j === i;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-current', on ? 'true' : 'false');
+    });
+  }
+
+  let mobileIndex = 0;
+
+  function showMobileStat(index) {
+    if (mode !== 'mobile') return;
+    mobileIndex = index;
+    const stat = stats[index];
+    if (!stat || Number.isNaN(stat.value)) return;
+
+    if (cancelMobileCount) cancelMobileCount();
+    cycleBlock.dataset.value = String(stat.value);
+    cycleBlock.dataset.suffix = stat.suffix;
+    cycleLabel.textContent = stat.label;
+    cycleLabel.classList.remove('is-visible');
+
+    cancelMobileCount = runCountUp(
+      cycleNum,
+      stat.value,
+      stat.suffix,
+      COUNT_MS_MOBILE,
+      function () {
+        cancelMobileCount = null;
+        setTimeout(function () {
+          if (mode === 'mobile') cycleLabel.classList.add('is-visible');
+        }, 200);
+      },
+      function () {
+        return mode === 'mobile';
+      }
+    );
+
+    setActiveDot(index);
+  }
+
+  function restartMobileRotation() {
+    if (mode !== 'mobile') return;
+    if (mobileRotateTimer) clearInterval(mobileRotateTimer);
+    mobileRotateTimer = setInterval(function () {
+      var next = (mobileIndex + 1) % stats.length;
+      showMobileStat(next);
+    }, MOBILE_ROTATE_MS);
+  }
+
+  function startMobile() {
+    stopMobile();
+    mode = 'mobile';
+    buildDots();
+    showMobileStat(0);
+    restartMobileRotation();
+  }
+
+  function startDesktop() {
+    if (desktopRan) {
+      mode = 'desktop';
+      return;
+    }
+    desktopRan = true;
+    mode = 'desktop';
+
+    blocks.forEach(function (block) {
+      var labelEl = block.querySelector('.hstat-l');
       if (labelEl) labelEl.classList.remove('is-visible');
     });
-    blocks.forEach((block, i) => runStat(block, i * STAGGER_MS));
-    const lastCountEnd = (blocks.length - 1) * STAGGER_MS + COUNT_MS;
-    setTimeout(() => {
-      blocks.forEach((block) => {
+
+    blocks.forEach(function (block, i) {
+      const value = parseFloat(block.dataset.value);
+      const suffix = block.dataset.suffix || '';
+      const numEl = block.querySelector('.hstat-n');
+      if (!numEl || Number.isNaN(value)) return;
+
+      setTimeout(function () {
+        if (mode !== 'desktop') return;
+        runCountUp(numEl, value, suffix, COUNT_MS_DESKTOP, null, function () {
+          return mode === 'desktop';
+        });
+      }, i * STAGGER_MS);
+    });
+
+    const lastCountEnd = (blocks.length - 1) * STAGGER_MS + COUNT_MS_DESKTOP;
+    setTimeout(function () {
+      if (mode !== 'desktop') return;
+      blocks.forEach(function (block) {
         const labelEl = block.querySelector('.hstat-l');
         if (labelEl) labelEl.classList.add('is-visible');
       });
     }, lastCountEnd + LABEL_PAUSE_MS);
   }
 
+  function syncLayout() {
+    if (!heroEntered) return;
+    if (isNarrow()) {
+      startMobile();
+    } else {
+      stopMobile();
+      startDesktop();
+    }
+  }
+
+  function onHeroEnter() {
+    if (heroEntered) return;
+    heroEntered = true;
+    syncLayout();
+  }
+
+  if (typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', syncLayout);
+  } else {
+    mq.addListener(syncLayout);
+  }
+
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
+      function (entries) {
+        entries.forEach(function (e) {
           if (e.isIntersecting) {
-            start();
+            onHeroEnter();
             io.disconnect();
           }
         });
@@ -967,7 +1140,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     );
     io.observe(root);
   } else {
-    start();
+    onHeroEnter();
   }
 })();
 
