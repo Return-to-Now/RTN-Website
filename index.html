@@ -31,6 +31,9 @@
   --font-mono:"JetBrains Mono",ui-monospace,monospace;
 }
 html{scroll-behavior:smooth;}
+@media (max-width:767px){
+  html{scroll-snap-type:y proximity;}
+}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:16px;line-height:1.5;overflow-x:hidden;}
 
 /* NAV */
@@ -43,22 +46,67 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:72px;padding:0 48px;d
 .nav-links a:hover{color:var(--fg);}
 .nav-cta{padding:10px 20px;background:var(--fg);color:#fff;border-radius:var(--radius-cta);font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;}
 .nav-cta:hover{color:#fff;opacity:.92;}
+.nav-drawer-cta{display:none;}
 .nav-menu-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;padding:0;border:none;background:transparent;border-radius:10px;cursor:pointer;color:var(--fg);}
 .nav-menu-toggle:hover{background:var(--card-bg);}
 .nav-menu-toggle span{display:block;width:22px;height:2px;background:currentColor;border-radius:1px;transition:transform .2s,opacity .2s;}
 .nav-menu-backdrop{display:none;position:fixed;top:72px;left:0;right:0;bottom:0;background:rgba(3,2,19,.22);z-index:1;}
 nav.nav-menu-open .nav-menu-backdrop{display:block;}
 @media (max-width:900px){
-  nav{padding:0 20px;}
+  nav{padding:0 16px;height:64px;justify-content:space-between;position:fixed;}
+  .nav-logo img{height:36px;}
+  .nav-actions{display:flex;align-items:center;gap:0;}
   .nav-menu-toggle{display:flex;}
-  .nav-actions{gap:12px;}
+  /* Hide the inline "Request a demo" button in the bar on mobile — it lives in the drawer */
+  .nav-cta{display:none;}
+  .nav-menu-backdrop{top:64px;background:rgba(3,2,19,.38);}
   .nav-links{
-    position:fixed;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;
-    padding:8px 0 16px;background:#fff;border-bottom:1px solid var(--card-border);
-    box-shadow:0 12px 32px rgba(0,0,0,.08);display:none;
+    position:fixed;top:64px;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    padding:8px 0 0;background:#fff;
+    display:none;
   }
   nav.nav-menu-open .nav-links{display:flex;}
-  .nav-links a{padding:14px 20px;font-size:16px;}
+  .nav-links a{
+    padding:16px 20px;font-size:16px;font-weight:500;
+    color:var(--fg);
+    border-bottom:1px solid var(--card-border);
+  }
+  /* Drawer CTA — flush against the links, no gap, same white panel */
+  .nav-drawer-cta{
+    position:fixed;top:calc(64px + 8px + 3 * 54px);
+    left:0;right:0;
+    padding:16px 20px calc(20px + env(safe-area-inset-bottom,0px));
+    background:#fff;
+    display:none;align-items:center;justify-content:center;
+    z-index:101;
+    border-bottom:1px solid var(--card-border);
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+    margin-top:0;
+  }
+  .nav-drawer-cta::before{
+    content:"Request a demo";
+    display:flex;align-items:center;justify-content:center;
+    width:100%;min-height:52px;padding:14px 20px;
+    background:var(--fg);color:#fff;
+    border-radius:var(--radius-cta);
+    font-size:16px;font-weight:600;
+  }
+  nav.nav-menu-open .nav-drawer-cta{display:flex;}
+  /* Hide the text of the anchor; ::before shows the styled button */
+  .nav-drawer-cta{font-size:0;color:transparent;text-decoration:none;}
+  /* Animated hamburger → close */
+  .nav-menu-toggle span{transition:transform .25s ease, opacity .2s ease;}
+  nav.nav-menu-open .nav-menu-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  nav.nav-menu-open .nav-menu-toggle span:nth-child(2){opacity:0;}
+  nav.nav-menu-open .nav-menu-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+}
+/* Also account for hero top-padding now that nav is 64px */
+@media (max-width:767px){
+  .hero{padding-top:calc(64px + 40px + env(safe-area-inset-top,0px));}
+  .nav-menu-backdrop,.nav-links{top:64px;}
+  .how-phone-col{top:72px !important;}
+  .how-step-item{scroll-margin-top:calc(64px + 12px + 410px + 24px) !important;}
 }
 
 /* HERO */
@@ -429,6 +477,256 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 .modal-success-icon{width:56px;height:56px;border-radius:50%;background:var(--accent-muted);border:1.5px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
 .modal-success-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--fg);margin-bottom:10px;letter-spacing:-0.01em;}
 .modal-success-body{font-size:15px;color:var(--muted-fg);line-height:1.65;max-width:320px;}
+
+/* ============================================
+   MOBILE STYLES (≤767px)
+   Keeps desktop layout intact above this breakpoint.
+   ============================================ */
+
+/* PROBLEM — stack cols, tighten padding, scale type */
+@media (max-width:767px){
+  .problem{padding:72px 20px;}
+  .prob-grid{grid-template-columns:1fr;gap:36px;}
+  .stat-dark{padding:22px;}
+  .stat-dark-n{font-size:44px;}
+  .stat-dark-u{font-size:10px;}
+  .stat-dark-d{font-size:13px;margin-top:12px;padding-top:12px;}
+  .stat-mini{padding:18px;}
+  .stat-mini-n{font-size:26px;}
+  .stat-row{gap:10px;}
+  .sec-h2{font-size:28px;line-height:1.15;margin-bottom:18px;}
+  .kicker{font-size:11px;margin-bottom:14px;}
+  .body-copy{font-size:15px;line-height:1.7;}
+}
+
+/* HOW IT WORKS — mobile sticky-scroll (vertical).
+   Phone sticks near top of viewport, steps scroll past and
+   drive the active screen via IntersectionObserver. */
+@media (max-width:767px){
+  .how-intro{
+    min-height:auto;
+    padding:72px 20px 0;
+    margin-bottom:0;
+  }
+  .how-intro .sec-h2.white{font-size:28px;line-height:1.15;}
+  .how-scroll-hint{margin-top:28px;}
+  .how-scroll-hint-text{font-size:10px;}
+  .how-scroll-arrow{width:20px;height:20px;}
+  /* Grid becomes single column, but we KEEP flex/positioning so sticky works */
+  .how-scroll-section{
+    display:flex;
+    flex-direction:column;
+    padding:0 20px 72px;
+    position:relative;
+  }
+  .how-phone-col{order:-1;}
+  .how-steps-col{padding-right:0;}
+  /* Steps are natural height, all visible, stacked */
+  .how-step-item{
+    min-height:auto;
+    padding:0 0 28vh;
+    display:flex;
+    justify-content:center;
+    opacity:.12;
+    transform:translateY(8px);
+    transition:opacity .45s ease, transform .45s ease, filter .45s ease;
+    filter:blur(2px);
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    /* Snap so the step kicker sits just below the sticky phone (60 nav + 12 pad + 410 phone + 24 breathing room) */
+    scroll-margin-top:calc(60px + 12px + 410px + 24px);
+  }
+  .how-step-item:first-child{padding-top:0;padding-bottom:28vh;}
+  .how-step-item:last-child{padding-bottom:40px;}
+  .how-step-item.is-mobile-active{
+    opacity:1;
+    transform:translateY(0);
+    filter:blur(0);
+    display:flex;
+  }
+  .how-step-item:first-child{padding-top:24px;}
+  .how-step-item:last-child{padding-bottom:40px;}
+  .how-step-title{font-size:22px;line-height:1.2;margin-bottom:12px;}
+  .how-step-body{font-size:15px;line-height:1.6;margin-bottom:18px;max-width:none;}
+  .how-step-num{font-size:10px;margin-bottom:12px;}
+  .how-step-pill{padding:11px 13px;}
+  .how-step-pill-text{font-size:13px;line-height:1.55;}
+  .how-step-detail{gap:8px;}
+  /* Phone sticks to top of viewport on scroll */
+  .how-phone-col{
+    position:sticky;
+    top:68px; /* nav (60) + 8 */
+    height:auto;
+    padding:12px 0 20px;
+    z-index:5;
+    background:linear-gradient(to bottom, var(--dark) 0%, var(--dark) 85%, transparent 100%);
+    margin:0 -20px;
+    width:calc(100% + 40px);
+  }
+  .how-phone-wrap{width:200px;margin:0 auto;}
+  .how-phone-frame{
+    width:200px;height:410px;
+    border-width:6px;border-radius:32px;
+  }
+  .how-phone-notch{width:60px;height:15px;}
+  .how-phone-dots{margin-top:10px;}
+  .how-phone-dot{width:6px;height:6px;}
+  .how-mobile-controls{display:none !important;}
+}
+/* Hide mobile-only controls on desktop */
+@media (min-width:768px){
+  .how-mobile-controls{display:none;}
+}
+
+/* Accordion variant: all steps visible, tap to expand */
+@media (max-width:767px){
+  body[data-how-pattern="accordion"] .how-mobile-controls{display:none;}
+  body[data-how-pattern="accordion"] .how-phone-col{display:none;}
+  body[data-how-pattern="accordion"] .how-step-item{
+    display:block;
+    border-top:1px solid rgba(255,255,255,.08);
+    padding:20px 0;
+  }
+  body[data-how-pattern="accordion"] .how-step-item:first-child{border-top:none;}
+  body[data-how-pattern="accordion"] .how-step-item .how-step-body,
+  body[data-how-pattern="accordion"] .how-step-item .how-step-detail{display:none;}
+  body[data-how-pattern="accordion"] .how-step-item.is-expanded .how-step-body,
+  body[data-how-pattern="accordion"] .how-step-item.is-expanded .how-step-detail{display:block;}
+  body[data-how-pattern="accordion"] .how-step-item .how-step-title{
+    cursor:pointer;font-size:18px;margin-bottom:4px;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  body[data-how-pattern="accordion"] .how-step-item .how-step-title::after{
+    content:"+";font-family:var(--font-mono);color:var(--accent);font-size:22px;font-weight:400;
+  }
+  body[data-how-pattern="accordion"] .how-step-item.is-expanded .how-step-title::after{content:"−";}
+  body[data-how-pattern="accordion"] .how-step-item .how-step-detail{margin-top:16px;}
+}
+
+/* Stacked variant: every step + its matching phone screen shown in full */
+@media (max-width:767px){
+  body[data-how-pattern="stacked"] .how-mobile-controls{display:none;}
+  body[data-how-pattern="stacked"] .how-phone-dots{display:none;}
+  body[data-how-pattern="stacked"] .how-scroll-section{display:flex;flex-direction:column;}
+  body[data-how-pattern="stacked"] .how-phone-col{display:none;}
+  body[data-how-pattern="stacked"] .how-step-item{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    padding:36px 0;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  body[data-how-pattern="stacked"] .how-step-item:first-child{border-top:none;padding-top:0;}
+  body[data-how-pattern="stacked"] .how-step-item::before{
+    content:"";
+    display:block;
+    width:100%;
+    aspect-ratio:240/490;
+    max-width:240px;
+    margin:0 auto 8px;
+    background:rgba(255,255,255,.04);
+    border:1px dashed rgba(255,255,255,.12);
+    border-radius:30px;
+    background-image:radial-gradient(circle at 50% 40%, rgba(16,185,129,.1), transparent 60%);
+  }
+}
+
+/* WHY — stack grid */
+@media (max-width:767px){
+  .why{padding:72px 20px;}
+  .why-grid{grid-template-columns:1fr;gap:32px;}
+  .why-sub{font-size:15px;margin-bottom:24px;}
+  .cmp-row{grid-template-columns:1fr;gap:10px;}
+  .cmp{padding:18px;}
+  .research-card{padding:28px;}
+  .rq-mark{font-size:56px;margin-bottom:10px;}
+  .rq-text{font-size:17px;line-height:1.45;margin-bottom:16px;}
+  .rq-attr{font-size:12px;}
+}
+
+/* PHILOSOPHY — stack 3 cols into 1 */
+@media (max-width:767px){
+  .phil{padding:72px 20px;}
+  .phil-hd{margin-bottom:32px;}
+  .phil-sub{font-size:15px;line-height:1.65;}
+  .phil-grid{grid-template-columns:1fr;gap:12px;}
+  .phil-card{padding:24px;}
+  .phil-n{font-size:28px;margin-bottom:12px;}
+  .phil-title{font-size:16px;margin-bottom:8px;}
+  .phil-body{font-size:14px;line-height:1.65;}
+}
+
+/* CHIPS */
+@media (max-width:767px){
+  .chips-strip{padding:36px 20px;}
+  .chips-kicker{font-size:11px;margin-bottom:14px;}
+  .chip{padding:8px 14px;font-size:13px;}
+  .chips{gap:8px;}
+}
+
+/* BENEFIT — stack grid, tighten card */
+@media (max-width:767px){
+  .benefit{padding:72px 20px;}
+  .benefit-grid{grid-template-columns:1fr;gap:36px;}
+  .benefit-body{font-size:15px;line-height:1.65;margin-bottom:28px;}
+  .benefit-ft{font-size:14px;line-height:1.6;}
+  .benefit-feats{gap:14px;}
+  .benefit-card{padding:22px;}
+  .benefit-card-hd{margin-bottom:16px;padding-bottom:16px;}
+  .benefit-card-title{font-size:14px;}
+  .benefit-tier{padding:12px 14px;}
+  .benefit-tier-name{font-size:13px;}
+  .benefit-tier-sub{font-size:11px;}
+  .benefit-tier-ic{width:28px;height:28px;font-size:10px;}
+  .benefit-badge{font-size:10px;padding:3px 9px;}
+}
+
+/* CTA */
+@media (max-width:767px){
+  .cta{padding:72px 20px;}
+  .cta-h2{font-size:32px;line-height:1.08;margin-bottom:14px;}
+  .cta-sub{font-size:16px;line-height:1.6;margin-bottom:28px;}
+  .cta-btns{flex-direction:column;gap:10px;}
+  .btn-black,.btn-outline{min-height:52px;padding:14px 22px;font-size:15px;width:100%;justify-content:center;}
+  .cta-note{font-size:12px;margin-top:16px;line-height:1.5;padding:0 10px;}
+}
+
+/* FOOTER — stack, center */
+@media (max-width:767px){
+  footer{
+    padding:28px 20px 32px;
+    flex-direction:column;
+    gap:20px;
+    text-align:center;
+  }
+  .footer-logo img{height:30px;}
+  .footer-links{gap:18px;flex-wrap:wrap;justify-content:center;}
+  .footer-links a{font-size:13px;}
+  .footer-copy{font-size:11px;}
+}
+
+/* MODAL — tighter padding, scrollable on short viewports */
+@media (max-width:767px){
+  .modal-backdrop{padding:12px;align-items:flex-start;overflow-y:auto;}
+  .modal{
+    padding:28px 22px;
+    border-radius:18px;
+    max-height:calc(100vh - 24px);
+    margin:12px 0;
+    overflow-y:auto;
+  }
+  .modal-title{font-size:22px;}
+  .modal-sub{font-size:14px;margin-bottom:22px;}
+  .form-row{grid-template-columns:1fr;gap:12px;}
+  .form-input,.form-select{font-size:16px;padding:12px 14px;} /* 16px prevents iOS zoom */
+  .form-submit{padding:14px;font-size:15px;min-height:48px;}
+  .modal-kicker{font-size:11px;}
+}
+
+/* Prevent iOS zoom on any input */
+@media (max-width:767px){
+  input,select,textarea{font-size:16px !important;}
+}
 </style>
 </head>
 <body>
@@ -447,6 +745,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     </button>
   </div>
   <div class="nav-menu-backdrop" id="navMenuBackdrop" aria-hidden="true"></div>
+  <a href="#cta" class="nav-drawer-cta" id="navDrawerCta">Request a demo</a>
 </nav>
 
 <!-- HERO -->
@@ -724,12 +1023,25 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 
           </div>
           <div class="how-phone-dots" id="howDots">
-            <div class="how-phone-dot active"></div>
-            <div class="how-phone-dot"></div>
-            <div class="how-phone-dot"></div>
-            <div class="how-phone-dot"></div>
+            <div class="how-phone-dot active" data-step-dot="0"></div>
+            <div class="how-phone-dot" data-step-dot="1"></div>
+            <div class="how-phone-dot" data-step-dot="2"></div>
+            <div class="how-phone-dot" data-step-dot="3"></div>
           </div>
         </div>
+      </div>
+
+      <!-- Mobile-only prev/next controls for the how-it-works carousel -->
+      <div class="how-mobile-controls" id="howMobileControls" aria-hidden="true">
+        <button type="button" class="how-mobile-btn" id="howPrev" aria-label="Previous step">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span>Prev</span>
+        </button>
+        <div class="how-mobile-counter" id="howCounter">01 / 04</div>
+        <button type="button" class="how-mobile-btn" id="howNext" aria-label="Next step">
+          <span>Next</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
       </div>
 
     </div>
@@ -1181,23 +1493,64 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   }
 })();
 
-// Sticky scroll
-const stepItems = document.querySelectorAll('.how-step-item');
-const screens = document.querySelectorAll('.how-screen');
-const dots = document.querySelectorAll('.how-phone-dot');
+// Sticky scroll on both desktop and mobile — steps scroll past a pinned phone.
+(function () {
+  const stepItems = document.querySelectorAll('.how-step-item');
+  const screens = document.querySelectorAll('.how-screen');
+  const dots = document.querySelectorAll('.how-phone-dot');
+  const total = stepItems.length;
+  if (!total) return;
 
-function setActiveScreen(index) {
-  screens.forEach((s, i) => s.classList.toggle('active', i === index));
-  dots.forEach((d, i) => d.classList.toggle('active', i === index));
-}
+  const mq = window.matchMedia('(max-width:767px)');
+  let observer = null;
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) setActiveScreen(parseInt(entry.target.dataset.step));
+  function setActiveScreen(index) {
+    screens.forEach((s, i) => s.classList.toggle('active', i === index));
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    stepItems.forEach((s, i) => s.classList.toggle('is-mobile-active', i === index));
+  }
+
+  function attachObserver() {
+    if (observer) observer.disconnect();
+    // Mobile: phone sticks at top; trigger when step crosses middle-lower viewport.
+    // Desktop: phone sticks centered; trigger zone is mid-viewport.
+    const rootMargin = mq.matches
+      ? '-45% 0px -35% 0px'
+      : '-40% 0px -40% 0px';
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActiveScreen(parseInt(entry.target.dataset.step));
+      });
+    }, { rootMargin, threshold: 0 });
+    stepItems.forEach(item => observer.observe(item));
+  }
+
+  // Initial
+  setActiveScreen(0);
+  attachObserver();
+
+  // Re-attach on viewport change so rootMargin matches
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', attachObserver);
+  else mq.addListener(attachObserver);
+
+  // Dot taps scroll to the matching step
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const target = stepItems[i];
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   });
-}, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+})();
 
-stepItems.forEach(item => observer.observe(item));
+// Accordion variant click handling
+(function(){
+  document.querySelectorAll('.how-step-item .how-step-title').forEach((t) => {
+    t.addEventListener('click', () => {
+      if (document.body.dataset.howPattern !== 'accordion') return;
+      t.closest('.how-step-item').classList.toggle('is-expanded');
+    });
+  });
+})();
 
 // Modal + nav
 const modal = document.getElementById('demoModal');
@@ -1239,7 +1592,7 @@ function closeModal() {
 }
 
 // Wire every demo CTA
-document.querySelectorAll('.nav-cta, .btn-green, .btn-black').forEach(el => {
+document.querySelectorAll('.nav-cta, .nav-drawer-cta, .btn-green, .btn-black').forEach(el => {
   el.addEventListener('click', e => { e.preventDefault(); openModal(); });
 });
 
