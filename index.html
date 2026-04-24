@@ -32,7 +32,11 @@
 }
 html{scroll-behavior:smooth;}
 @media (max-width:767px){
+  /* Proximity only: mandatory on the whole document trapped scroll after the last #how snap */
   html{scroll-snap-type:y proximity;}
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce){
+  html{scroll-snap-type:none;}
 }
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:16px;line-height:1.5;overflow-x:hidden;}
 
@@ -105,8 +109,6 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 @media (max-width:767px){
   .hero{padding-top:calc(64px + 40px + env(safe-area-inset-top,0px));}
   .nav-menu-backdrop,.nav-links{top:64px;}
-  .how-phone-col{top:72px !important;}
-  .how-step-item{scroll-margin-top:calc(64px + 12px + 410px + 24px) !important;}
 }
 
 /* HERO */
@@ -501,12 +503,24 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 
 /* HOW IT WORKS — mobile sticky-scroll (vertical).
    Phone sticks near top of viewport, steps scroll past and
-   drive the active screen via IntersectionObserver. */
+   drive the active screen via IntersectionObserver.
+   Each step is ~one viewport tall so one snap advance = one step (both directions). */
 @media (max-width:767px){
+  .how{
+    /* Sticky stack: nav + phone column padding + frame + gap under phone */
+    --how-m-sticky:calc(64px + 12px + 410px + 24px);
+  }
   .how-intro{
-    min-height:auto;
-    padding:72px 20px 0;
-    margin-bottom:0;
+    min-height:100svh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:calc(64px + 24px) 20px max(40px,env(safe-area-inset-bottom,0px));
+    margin-bottom:56px;
+    box-sizing:border-box;
+    scroll-snap-align:start;
+    scroll-margin-top:64px;
   }
   .how-intro .sec-h2.white{font-size:28px;line-height:1.15;}
   .how-scroll-hint{margin-top:28px;}
@@ -516,36 +530,41 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   .how-scroll-section{
     display:flex;
     flex-direction:column;
-    padding:0 20px 72px;
+    /* Extra bottom space so the last step can snap correctly and scroll can exit into #why */
+    padding:0 20px max(120px,calc(24px + env(safe-area-inset-bottom,0px)));
     position:relative;
   }
   .how-phone-col{order:-1;}
   .how-steps-col{padding-right:0;}
-  /* Steps are natural height, all visible, stacked */
+  /* One scroll track ≈ one viewport below the sticky phone per step */
   .how-step-item{
-    min-height:auto;
-    padding:0 0 28vh;
+    box-sizing:border-box;
+    min-height:max(360px,calc(100svh - var(--how-m-sticky)));
+    min-height:max(360px,calc(100dvh - var(--how-m-sticky)));
+    padding:0 0 24px;
     display:flex;
-    justify-content:center;
+    justify-content:flex-start;
     opacity:.12;
     transform:translateY(8px);
     transition:opacity .45s ease, transform .45s ease, filter .45s ease;
     filter:blur(2px);
     scroll-snap-align:start;
-    scroll-snap-stop:always;
-    /* Snap so the step kicker sits just below the sticky phone (60 nav + 12 pad + 410 phone + 24 breathing room) */
-    scroll-margin-top:calc(60px + 12px + 410px + 24px);
+    scroll-margin-top:var(--how-m-sticky) !important;
   }
-  .how-step-item:first-child{padding-top:0;padding-bottom:28vh;}
-  .how-step-item:last-child{padding-bottom:40px;}
-  .how-step-item.is-mobile-active{
+  .how-step-item:first-child{padding-top:24px;}
+  /* Last step: bottom snap margin so start alignment isn’t flush with section end; room for overscroll */
+  .how-step-item:last-child{
+    padding-bottom:max(48px,env(safe-area-inset-bottom,0px));
+    scroll-margin-bottom:80px;
+    scroll-margin-bottom:max(80px,15svh);
+  }
+  .how-step-item.is-mobile-active,
+  .how-step-item.is-mobile-incoming{
     opacity:1;
     transform:translateY(0);
     filter:blur(0);
     display:flex;
   }
-  .how-step-item:first-child{padding-top:24px;}
-  .how-step-item:last-child{padding-bottom:40px;}
   .how-step-title{font-size:22px;line-height:1.2;margin-bottom:12px;}
   .how-step-body{font-size:15px;line-height:1.6;margin-bottom:18px;max-width:none;}
   .how-step-num{font-size:10px;margin-bottom:12px;}
@@ -555,7 +574,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   /* Phone sticks to top of viewport on scroll */
   .how-phone-col{
     position:sticky;
-    top:68px; /* nav (60) + 8 */
+    top:72px !important; /* below 64px nav + breathing room */
     height:auto;
     padding:12px 0 20px;
     z-index:5;
@@ -1503,11 +1522,41 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 
   const mq = window.matchMedia('(max-width:767px)');
   let observer = null;
+  let lastActiveIndex = 0;
+  let lastScrollY = window.scrollY || 0;
+  let scrollDir = 'down';
+  let hasScrolled = false;
+
+  function refreshMobileIncoming(activeIndex) {
+    if (!mq.matches) {
+      stepItems.forEach((s) => s.classList.remove('is-mobile-incoming'));
+      return;
+    }
+    stepItems.forEach((s, i) => {
+      const incomingDown =
+        hasScrolled && scrollDir === 'down' && i === activeIndex + 1;
+      const incomingUp =
+        hasScrolled && scrollDir === 'up' && i === activeIndex - 1;
+      s.classList.toggle('is-mobile-incoming', incomingDown || incomingUp);
+    });
+  }
 
   function setActiveScreen(index) {
+    lastActiveIndex = index;
     screens.forEach((s, i) => s.classList.toggle('active', i === index));
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
     stepItems.forEach((s, i) => s.classList.toggle('is-mobile-active', i === index));
+    refreshMobileIncoming(index);
+  }
+
+  function onScrollDir() {
+    const y = window.scrollY || 0;
+    if (y !== lastScrollY) {
+      hasScrolled = true;
+      scrollDir = y > lastScrollY ? 'down' : 'up';
+      lastScrollY = y;
+      refreshMobileIncoming(lastActiveIndex);
+    }
   }
 
   function attachObserver() {
@@ -1533,9 +1582,24 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   if (typeof mq.addEventListener === 'function') mq.addEventListener('change', attachObserver);
   else mq.addListener(attachObserver);
 
+  window.addEventListener('scroll', onScrollDir, { passive: true });
+  if (typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', () => {
+      if (!mq.matches) stepItems.forEach((s) => s.classList.remove('is-mobile-incoming'));
+      else refreshMobileIncoming(lastActiveIndex);
+    });
+  } else {
+    mq.addListener(() => {
+      if (!mq.matches) stepItems.forEach((s) => s.classList.remove('is-mobile-incoming'));
+      else refreshMobileIncoming(lastActiveIndex);
+    });
+  }
+
   // Dot taps scroll to the matching step
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
+      hasScrolled = true;
+      scrollDir = i > lastActiveIndex ? 'down' : 'up';
       const target = stepItems[i];
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
