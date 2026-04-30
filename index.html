@@ -22,6 +22,8 @@
   --chip-tan-bg:#EFE8DD;
   --chip-tan-text:#44403C;
   --dark:#09090B;
+  /* Paragraph / subtext on dark (hero, how, benefit, footer, stat card, etc.) */
+  --on-dark-muted:rgba(255,255,255,.68);
   --shadow-card:0 0 16px rgba(0,0,0,0.11);
   --radius-lg:10px;
   --radius-xl:14px;
@@ -121,7 +123,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .hero-stats-mobile{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:280px;text-align:center;}
 .hstat-n{font-family:var(--font-display);font-size:clamp(56px,8vw,96px);font-weight:700;letter-spacing:-0.02em;color:#fff;line-height:1;margin-bottom:16px;}
 .hstat-n--mobile{font-size:clamp(52px,16vw,64px);}
-.hstat-l{font-size:16px;line-height:1.625;color:rgba(255,255,255,.4);opacity:0;filter:blur(12px);transition:opacity .7s ease, filter .7s ease;}
+.hstat-l{font-size:16px;line-height:1.625;color:var(--on-dark-muted);opacity:0;filter:blur(12px);transition:opacity .7s ease, filter .7s ease;}
 .hstat-l--mobile{max-width:320px;margin-left:auto;margin-right:auto;padding:0 16px;}
 .hstat-l.is-visible{opacity:1;filter:blur(0);}
 .hero-stats-dots{display:flex;gap:8px;justify-content:center;margin-top:32px;}
@@ -129,11 +131,11 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .hero-stat-dot:hover,.hero-stat-dot:focus-visible{background:rgba(255,255,255,.35);}
 .hero-stat-dot.is-active{background:var(--accent);}
 .hero-stat-dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-.hero-sub{font-size:18px;line-height:1.65;color:rgba(255,255,255,.45);max-width:760px;margin:80px auto 40px;}
+.hero-sub{font-size:18px;line-height:1.65;color:var(--on-dark-muted);max-width:760px;margin:80px auto 40px;}
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
 .btn-green{padding:16px 28px;min-height:60px;background:var(--accent);color:#fff;border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;transition:opacity .15s;}
 .btn-green:hover{opacity:.9;}
-.btn-ghost{padding:16px 28px;min-height:60px;background:transparent;color:rgba(255,255,255,.55);border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.14);transition:background .15s,color .15s;}
+.btn-ghost{padding:16px 28px;min-height:60px;background:transparent;color:var(--on-dark-muted);border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.14);transition:background .15s,color .15s;}
 .btn-ghost:hover{background:rgba(255,255,255,.07);}
 @media (max-width:767px){
   .hero{
@@ -194,8 +196,8 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .prob-right{display:flex;flex-direction:column;gap:12px;}
 .stat-dark{background:var(--dark);border-radius:var(--radius-xl);padding:28px;box-shadow:var(--shadow-card);}
 .stat-dark-n{font-family:var(--font-display);font-size:56px;font-weight:700;letter-spacing:-0.02em;color:#fff;line-height:1;}
-.stat-dark-u{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:6px;}
-.stat-dark-d{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-top:14px;border-top:1px solid rgba(255,255,255,.07);padding-top:14px;}
+.stat-dark-u{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--on-dark-muted);margin-top:6px;}
+.stat-dark-d{font-size:13px;color:var(--on-dark-muted);line-height:1.6;margin-top:14px;border-top:1px solid rgba(255,255,255,.07);padding-top:14px;}
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .stat-mini{background:var(--card-bg);border-radius:var(--radius-xl);padding:20px;border:1px solid var(--card-border);}
 .stat-mini-n{font-family:var(--font-display);font-size:30px;font-weight:700;letter-spacing:-0.02em;color:var(--fg);line-height:1;}
@@ -241,7 +243,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
   font-weight:500;
   letter-spacing:0.12em;
   text-transform:uppercase;
-  color:rgba(255,255,255,.4);
+  color:var(--on-dark-muted);
 }
 .how-scroll-arrow{
   width:24px;
@@ -267,96 +269,38 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .how-step-item{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0;}
 .how-step-item:first-child{padding-top:0;}
 .how-step-item:last-child{padding-bottom:120px;}
-.how-step-num{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;}
+.how-step-num{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--on-dark-muted);margin-bottom:20px;}
 .how-step-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,42px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#fff;margin-bottom:18px;}
 .how-step-title em{font-style:normal;color:var(--accent);}
-.how-step-body{font-size:17px;line-height:1.75;color:rgba(255,255,255,.45);margin-bottom:28px;max-width:420px;}
-.how-step-detail{display:flex;flex-direction:column;gap:12px;}
-.how-step-pill{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,.04);border-radius:var(--radius-lg);padding:14px 16px;border:1px solid rgba(255,255,255,.06);}
-.how-step-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px;}
-.how-step-pill-text{font-size:14px;color:rgba(255,255,255,.52);line-height:1.6;}
-.how-step-pill-text strong{color:#fff;font-weight:600;}
+.how-step-body{font-size:17px;line-height:1.75;color:var(--on-dark-muted);margin-bottom:28px;max-width:420px;}
 
 /* Sticky phone column */
 .how-phone-col{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;}
 .how-phone-wrap{position:relative;width:260px;}
 
-/* phone frame for how section */
-.how-phone-frame{width:260px;height:530px;background:#111;border-radius:38px;border:7px solid #2e2e2e;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1);position:relative;}
+/* phone frame — height matches common iPhone full-screen PNG aspect (1179×2556); 6px bezel each side in calc */
+.how-phone-frame{
+  width:260px;
+  height:calc((260px - 12px) * 2556 / 1179 + 12px);
+  background:#111;border-radius:36px;border:6px solid #2e2e2e;overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1);position:relative;
+}
 .how-phone-notch{width:72px;height:18px;background:#111;border-radius:0 0 11px 11px;margin:0 auto;position:relative;z-index:2;}
 
 /* screenshot slots */
-.how-screen{position:absolute;inset:0;transition:opacity .5s ease, transform .5s ease;opacity:0;transform:translateY(12px);}
+.how-screen{
+  position:absolute;inset:0;background:#111;overflow:hidden;
+  border-radius:30px; /* outer 36px − 6px border */
+  transition:opacity .5s ease, transform .5s ease;opacity:0;transform:translateY(12px);
+}
 .how-screen.active{opacity:1;transform:translateY(0);}
-.how-screen img{width:100%;height:100%;object-fit:cover;display:block;}
-
-/* placeholder screens for each step */
-.screen-placeholder{width:100%;height:100%;display:flex;flex-direction:column;background:#fff;}
-.sp-statusbar{height:20px;background:#f9f9f9;display:flex;align-items:center;justify-content:flex-end;padding:0 14px;flex-shrink:0;}
-.sp-statusbar-time{font-family:var(--font-mono);font-size:7px;color:#888;}
-.sp-content{flex:1;padding:14px;display:flex;flex-direction:column;gap:8px;overflow:hidden;}
-/* screen 1: widget intercepts */
-.sp-homescreen{background:#1a1a2e;}
-.sp-homescreen .sp-content{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px;align-content:start;}
-.sp-app-icon{width:100%;aspect-ratio:1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;}
-.sp-app-icon-lbl{font-size:5.5px;color:rgba(255,255,255,.7);text-align:center;font-weight:500;}
-.sp-widget-overlay{grid-column:1/-1;background:#fff;border-radius:14px;padding:12px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,.3);}
-.sp-widget-hd{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
-.sp-widget-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
-.sp-widget-title{font-family:var(--font-display);font-size:9px;font-weight:700;color:var(--fg);}
-.sp-widget-sub{font-size:7px;color:var(--muted-fg);}
-.sp-widget-apps{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
-.sp-wapp{background:var(--card-bg);border-radius:7px;padding:6px 7px;display:flex;align-items:center;gap:4px;}
-.sp-wapp-ic{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
-.sp-wapp-lbl{font-size:6px;font-weight:600;color:var(--fg);}
-/* screen 2: intention prompt */
-.sp-intention{background:#fff;}
-.sp-int-header{background:var(--dark);padding:16px 14px 20px;flex-shrink:0;}
-.sp-int-header-app{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
-.sp-int-app-ic{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;}
-.sp-int-app-name{font-size:10px;color:rgba(255,255,255,.6);}
-.sp-int-q{font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;line-height:1.3;}
-.sp-int-body{padding:14px;display:flex;flex-direction:column;gap:8px;}
-.sp-int-option{border-radius:10px;padding:10px 12px;border:1.5px solid var(--card-border);cursor:pointer;}
-.sp-int-option.selected{border-color:var(--accent);background:var(--accent-muted);}
-.sp-int-opt-text{font-size:9px;font-weight:600;color:var(--fg);}
-.sp-int-opt-sub{font-size:7.5px;color:var(--muted-fg);margin-top:2px;}
-.sp-int-option.selected .sp-int-opt-text{color:var(--accent-chip-text);}
-.sp-int-cta{margin:0 14px;background:var(--accent);border-radius:10px;padding:10px;text-align:center;font-size:9px;font-weight:700;color:#fff;}
-/* screen 3: session timer */
-.sp-timer{background:var(--dark);}
-.sp-timer-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px 14px;}
-.sp-timer-app-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
-.sp-timer-app-ic{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;}
-.sp-timer-app-name{font-size:10px;color:rgba(255,255,255,.5);}
-.sp-timer-circle{width:100px;height:100px;border-radius:50%;border:3px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;position:relative;margin:8px 0;}
-.sp-timer-circle::before{content:'';position:absolute;inset:-3px;border-radius:50%;border:3px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent);}
-.sp-timer-n{font-family:var(--font-display);font-size:22px;font-weight:700;color:#fff;line-height:1;}
-.sp-timer-unit{font-size:7px;color:rgba(255,255,255,.3);margin-top:2px;}
-.sp-timer-label{font-size:8px;color:rgba(255,255,255,.3);}
-.sp-timer-intent{background:rgba(255,255,255,.05);border-radius:9px;padding:8px 12px;margin:4px 0;text-align:center;}
-.sp-timer-intent-lbl{font-size:6.5px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
-.sp-timer-intent-val{font-size:8.5px;color:rgba(255,255,255,.7);}
-.sp-timer-actions{display:flex;gap:8px;width:100%;margin-top:4px;}
-.sp-timer-btn{flex:1;padding:8px;border-radius:9px;text-align:center;font-size:7.5px;font-weight:600;}
-.sp-timer-btn.done{background:var(--accent);color:#fff;}
-.sp-timer-btn.extend{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);}
-/* screen 4: reflection */
-.sp-reflect{background:#fff;}
-.sp-reflect-header{background:var(--card-bg);padding:16px 14px;border-bottom:1px solid var(--card-border);}
-.sp-reflect-title{font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--fg);}
-.sp-reflect-sub{font-size:8px;color:var(--muted-fg);margin-top:2px;}
-.sp-reflect-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
-.sp-reflect-q{font-size:9px;font-weight:600;color:var(--fg);margin-bottom:6px;}
-.sp-reflect-opts{display:flex;flex-direction:column;gap:5px;}
-.sp-reflect-opt{border-radius:9px;padding:9px 11px;border:1.5px solid var(--card-border);display:flex;align-items:center;gap:7px;}
-.sp-reflect-opt.selected{border-color:var(--accent);background:var(--accent-muted);}
-.sp-reflect-opt-icon{font-size:11px;}
-.sp-reflect-opt-text{font-size:8.5px;font-weight:600;color:var(--fg);}
-.sp-reflect-opt.selected .sp-reflect-opt-text{color:var(--accent-chip-text);}
-.sp-reflect-streak{background:var(--dark);border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px;margin-top:4px;}
-.sp-reflect-streak-n{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--accent);}
-.sp-reflect-streak-lbl{font-size:8px;color:rgba(255,255,255,.5);line-height:1.5;}
+.how-screen img{
+  width:100%;height:100%;object-fit:contain;object-position:center center;display:block;
+  /* Bleed ~1px to kill subpixel hairlines between asset and bezel */
+  transform:scale(1.004);transform-origin:center center;
+}
+/* Full device screenshots include their own status bar; hide the decorative notch */
+.how-phone-frame--native-shots .how-phone-notch{display:none;}
 
 /* progress dots for phone */
 .how-phone-dots{display:flex;gap:6px;justify-content:center;margin-top:20px;}
@@ -364,28 +308,30 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .how-phone-dot.active{background:var(--accent);}
 
 /* WHY */
-.why{padding:120px 48px;background:var(--card-bg);}
+.why{padding:120px 48px;background:var(--bg);}
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
-.why-sub{font-size:16px;line-height:1.7;color:var(--muted-fg);margin-bottom:32px;}
+#why .sec-h2{margin-bottom:32px;}
+.why-cite-mobile{display:none;font-size:12px;line-height:1.55;color:var(--muted-fg);margin:0;}
 .cmp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .cmp{padding:20px;border-radius:var(--radius-xl);}
 .cmp.bad{background:var(--card);border:1px solid var(--card-border);box-shadow:var(--shadow-card);}
 .cmp.good{background:var(--fg);}
 .cmp-lbl{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;}
 .cmp.bad .cmp-lbl{color:#52525B;}
-.cmp.good .cmp-lbl{color:rgba(255,255,255,.35);}
+.cmp.good .cmp-lbl{color:var(--on-dark-muted);}
 .cmp-title{font-size:14px;font-weight:600;margin-bottom:5px;}
 .cmp.bad .cmp-title{color:var(--fg);}
 .cmp.good .cmp-title{color:#fff;}
 .cmp-desc{font-size:13px;line-height:1.55;}
 .cmp.bad .cmp-desc{color:var(--muted-fg);}
-.cmp.good .cmp-desc{color:rgba(255,255,255,.5);}
+.cmp.good .cmp-desc{color:var(--on-dark-muted);}
 .research-card{background:var(--card);border-radius:var(--radius-xl);padding:36px;border:1px solid var(--card-border);box-shadow:var(--shadow-card);}
 .rq-mark{font-family:var(--font-display);font-size:72px;font-weight:700;color:var(--accent);line-height:.7;margin-bottom:18px;letter-spacing:-0.02em;}
 .rq-text{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.4;letter-spacing:-0.01em;color:var(--fg);margin-bottom:20px;}
 .rq-attr{font-size:12px;color:var(--muted-fg);border-top:1px solid var(--card-border);padding-top:16px;line-height:1.5;}
 
-/* PHILOSOPHY */
+/* PHILOSOPHY — hidden for now (remove display:none to restore section) */
+section.phil{display:none;}
 .phil{padding:120px 48px;background:var(--bg);}
 .phil-hd{max-width:540px;margin-bottom:52px;}
 .phil-sub{font-size:16px;color:var(--muted-fg);line-height:1.7;margin-top:14px;}
@@ -396,7 +342,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .phil-body{font-size:14px;color:var(--muted-fg);line-height:1.7;}
 
 /* CHIPS */
-.chips-strip{padding:52px 48px;background:var(--card-bg);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);}
+.chips-strip{padding:52px 48px;background:var(--card-bg);}
 .chips-kicker{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#52525B;margin-bottom:18px;}
 .chips{display:flex;flex-wrap:wrap;gap:10px;}
 .chip{padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;}
@@ -406,27 +352,27 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 /* BENEFIT MODEL */
 .benefit{padding:120px 48px;background:var(--dark);}
 .benefit-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-.benefit-body{font-size:16px;line-height:1.7;color:rgba(255,255,255,.42);margin-bottom:36px;}
 .benefit-feats{display:flex;flex-direction:column;gap:16px;}
 .benefit-feat{display:flex;gap:14px;align-items:flex-start;}
 .benefit-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:9px;}
-.benefit-ft{font-size:15px;color:rgba(255,255,255,.52);line-height:1.65;}
+.benefit-ft{font-size:15px;color:var(--on-dark-muted);line-height:1.65;}
 .benefit-ft strong{color:#fff;font-weight:600;}
 
 /* benefit card */
 .benefit-card{background:rgba(255,255,255,.04);border-radius:var(--radius-xl);padding:28px;border:1px solid rgba(255,255,255,.07);}
 .benefit-card-hd{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06);}
-.benefit-card-label{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:8px;}
+.benefit-card-label{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--on-dark-muted);margin-bottom:8px;}
 .benefit-card-title{font-size:15px;font-weight:600;color:#fff;}
 .benefit-tiers{display:flex;flex-direction:column;gap:8px;}
 .benefit-tier{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:var(--radius-lg);}
 .benefit-tier-l{display:flex;align-items:center;gap:10px;}
 .benefit-tier-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:11px;font-weight:700;color:#fff;}
 .benefit-tier-name{font-size:13px;color:#fff;}
-.benefit-tier-sub{font-size:11px;color:rgba(255,255,255,.28);margin-top:2px;}
+.benefit-tier-sub{font-size:11px;color:var(--on-dark-muted);margin-top:2px;}
+.benefit-tier-note{font-size:12px;color:var(--on-dark-muted);line-height:1.6;}
 .benefit-badge{font-size:10px;padding:4px 10px;border-radius:999px;font-weight:600;}
 .benefit-badge.included{background:rgba(16,185,129,.16);color:var(--accent);}
-.benefit-badge.free{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);}
+.benefit-badge.free{background:rgba(255,255,255,.07);color:var(--on-dark-muted);}
 
 /* CTA */
 .cta{padding:120px 48px;background:var(--bg);}
@@ -445,9 +391,9 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 .footer-logo{display:flex;align-items:center;line-height:0;text-decoration:none;}
 .footer-logo img{height:34px;width:auto;display:block;}
 .footer-links{display:flex;gap:24px;}
-.footer-links a{font-size:13px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;}
-.footer-links a:hover{color:rgba(255,255,255,.6);}
-.footer-copy{font-size:12px;color:rgba(255,255,255,.18);}
+.footer-links a{font-size:13px;color:var(--on-dark-muted);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:rgba(255,255,255,.92);}
+.footer-copy{font-size:12px;color:var(--on-dark-muted);}
 
 /* ===== DEMO MODAL ===== */
 .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s ease;}
@@ -507,8 +453,8 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
    Each step is ~one viewport tall so one snap advance = one step (both directions). */
 @media (max-width:767px){
   .how{
-    /* Sticky stack: nav + phone column padding + frame + gap under phone */
-    --how-m-sticky:calc(64px + 12px + 410px + 24px);
+    /* Sticky stack: nav + phone column padding + frame (matches iPhone PNG aspect) + gap under phone */
+    --how-m-sticky:calc(64px + 12px + (200px - 12px) * 2556 / 1179 + 12px + 24px);
   }
   .how-intro{
     min-height:100svh;
@@ -568,9 +514,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   .how-step-title{font-size:22px;line-height:1.2;margin-bottom:12px;}
   .how-step-body{font-size:15px;line-height:1.6;margin-bottom:18px;max-width:none;}
   .how-step-num{font-size:10px;margin-bottom:12px;}
-  .how-step-pill{padding:11px 13px;}
-  .how-step-pill-text{font-size:13px;line-height:1.55;}
-  .how-step-detail{gap:8px;}
   /* Phone sticks to top of viewport on scroll */
   .how-phone-col{
     position:sticky;
@@ -584,9 +527,11 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   }
   .how-phone-wrap{width:200px;margin:0 auto;}
   .how-phone-frame{
-    width:200px;height:410px;
-    border-width:6px;border-radius:32px;
+    width:200px;
+    height:calc((200px - 12px) * 2556 / 1179 + 12px);
+    border-width:6px;border-radius:28px;
   }
+  .how-screen{border-radius:22px;}
   .how-phone-notch{width:60px;height:15px;}
   .how-phone-dots{margin-top:10px;}
   .how-phone-dot{width:6px;height:6px;}
@@ -607,10 +552,8 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     padding:20px 0;
   }
   body[data-how-pattern="accordion"] .how-step-item:first-child{border-top:none;}
-  body[data-how-pattern="accordion"] .how-step-item .how-step-body,
-  body[data-how-pattern="accordion"] .how-step-item .how-step-detail{display:none;}
-  body[data-how-pattern="accordion"] .how-step-item.is-expanded .how-step-body,
-  body[data-how-pattern="accordion"] .how-step-item.is-expanded .how-step-detail{display:block;}
+  body[data-how-pattern="accordion"] .how-step-item .how-step-body{display:none;}
+  body[data-how-pattern="accordion"] .how-step-item.is-expanded .how-step-body{display:block;}
   body[data-how-pattern="accordion"] .how-step-item .how-step-title{
     cursor:pointer;font-size:18px;margin-bottom:4px;
     display:flex;justify-content:space-between;align-items:center;gap:12px;
@@ -619,7 +562,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     content:"+";font-family:var(--font-mono);color:var(--accent);font-size:22px;font-weight:400;
   }
   body[data-how-pattern="accordion"] .how-step-item.is-expanded .how-step-title::after{content:"−";}
-  body[data-how-pattern="accordion"] .how-step-item .how-step-detail{margin-top:16px;}
 }
 
 /* Stacked variant: every step + its matching phone screen shown in full */
@@ -654,13 +596,10 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 @media (max-width:767px){
   .why{padding:72px 20px;}
   .why-grid{grid-template-columns:1fr;gap:32px;}
-  .why-sub{font-size:15px;margin-bottom:24px;}
+  .why-research-col{display:none;}
+  .why-cite-mobile{display:block;margin-top:20px;}
   .cmp-row{grid-template-columns:1fr;gap:10px;}
   .cmp{padding:18px;}
-  .research-card{padding:28px;}
-  .rq-mark{font-size:56px;margin-bottom:10px;}
-  .rq-text{font-size:17px;line-height:1.45;margin-bottom:16px;}
-  .rq-attr{font-size:12px;}
 }
 
 /* PHILOSOPHY — stack 3 cols into 1 */
@@ -687,7 +626,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 @media (max-width:767px){
   .benefit{padding:72px 20px;}
   .benefit-grid{grid-template-columns:1fr;gap:36px;}
-  .benefit-body{font-size:15px;line-height:1.65;margin-bottom:28px;}
   .benefit-ft{font-size:14px;line-height:1.6;}
   .benefit-feats{gap:14px;}
   .benefit-card{padding:22px;}
@@ -770,7 +708,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-inner">
-    <h1 class="hero-h1">Give your team the gift of <em>their attention back.</em></h1>
+    <h1 class="hero-h1">Your organization's biggest wellness crisis <em>fits in your pocket.</em></h1>
     <div class="hero-stats-wrap" id="heroStats" aria-label="Key statistics">
       <div class="hero-stats-grid" id="heroStatsGrid">
         <div class="hstat" data-hero-stat data-value="33" data-suffix="">
@@ -810,16 +748,15 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
         <div class="kicker">The problem</div>
         <h2 class="sec-h2">Your team is struggling with social media. <em>It isn't a willpower problem.</em></h2>
         <div class="body-copy">
-          <p>The apps on your team's phones have one goal: keep them scrolling. Every notification, every autoplay video, every infinite feed is engineered by teams of behavioral scientists to hold attention as long as possible.</p>
-          <p>This takes a real toll — on sleep, on anxiety, on the ability to be present with the people they love. And it affects every dimension of their lives, including how they feel when they come to work.</p>
-          <p>You can't legislate this away. But you can give your people something that actually helps — a tool built on behavioral science that puts them back in control.</p>
+          <p>The apps on your employees' phones were engineered by behavioral scientists to be as hard to put down as possible.</p>
+          <p>The toll shows up at work: higher anxiety, poorer sleep, shorter attention spans. You can't policy your way out of it. But you can give your people something that actually helps.</p>
         </div>
       </div>
       <div class="prob-right">
         <div class="stat-dark">
           <div class="stat-dark-n">3–4</div>
           <div class="stat-dark-u">hours per day</div>
-          <div class="stat-dark-d">The average person spends 3 to 4 hours daily on social media. That's more time than most people spend with their families — and your team is no exception.</div>
+          <div class="stat-dark-d">The average person spends 3 to 4 hours daily on social media. That's more time than most people spend with their families. Your team is no exception.</div>
         </div>
         <div class="stat-row">
           <div class="stat-mini">
@@ -858,41 +795,25 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
         <div class="how-step-item" data-step="0">
           <div class="how-step-num">Step 01</div>
           <h3 class="how-step-title">The widget <em>intercepts the reflex.</em></h3>
-          <p class="how-step-body">A home screen widget replaces social app icons. The moment someone on your team reaches for Instagram or TikTok, they see Return to Now first. That single pause is enough to break the automatic grab-and-scroll cycle before the app ever opens.</p>
-          <div class="how-step-detail">
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>One moment of friction</strong> is all it takes to interrupt an automatic behavior and return choice to the user.</div></div>
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>No content is blocked.</strong> The app is still one tap away. The goal is awareness, not restriction.</div></div>
-          </div>
+          <p class="how-step-body">Most social media sessions start without a conscious decision. A home screen widget intercepts that moment, replacing app icons with Return to Now. One pause before the app opens is where change begins.</p>
         </div>
 
         <div class="how-step-item" data-step="1">
           <div class="how-step-num">Step 02</div>
           <h3 class="how-step-title">They set an <em>intention before opening.</em></h3>
-          <p class="how-step-body">If they choose to open the app, they say why. A quick prompt asks what they're looking for — and reminds them of the things they said matter most to them. Then they set a time limit and proceed.</p>
-          <div class="how-step-detail">
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Intentions are personal.</strong> Each person decides for themselves what they want more of. Nothing is prescribed.</div></div>
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Time limits are self-set,</strong> not enforced. The app trusts the person to follow through.</div></div>
-          </div>
+          <p class="how-step-body">A quick prompt asks two things: why they're opening the app, and how much time it's actually worth. That decision, made before they enter, is what separates intentional use from mindless scrolling.</p>
         </div>
 
         <div class="how-step-item" data-step="2">
           <div class="how-step-num">Step 03</div>
-          <h3 class="how-step-title">A timer keeps them <em>honest with themselves.</em></h3>
-          <p class="how-step-body">While using the app, a quiet background timer runs. When time is up, Return to Now asks if they're done — or if they want to extend. It's not a hard wall. It's a gentle, persistent reminder of the commitment they made to themselves.</p>
-          <div class="how-step-detail">
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>No hard cutoffs.</strong> They stay in control at every moment. The app nudges, not nags.</div></div>
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Session data stays private.</strong> Usage details are never visible to the employer.</div></div>
-          </div>
+          <h3 class="how-step-title">The session ends with <em>one honest question.</em></h3>
+          <p class="how-step-body">When their time is up, Return to Now closes the session and asks whether they kept their intention. It's a small moment of self-reflection that compounds over time, helping individuals recognize the difference between intentional use and getting carried away.</p>
         </div>
 
         <div class="how-step-item" data-step="3">
           <div class="how-step-num">Step 04</div>
-          <h3 class="how-step-title">A quick check-in builds <em>self-awareness over time.</em></h3>
-          <p class="how-step-body">After a session, a brief reflection prompt asks how it went. Did they stick to their intention? Over time, this builds genuine insight into their own patterns — and their own motivation to change. No score, no shame.</p>
-          <div class="how-step-detail">
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Progress is personal.</strong> Streaks and patterns are shown only to the user.</div></div>
-            <div class="how-step-pill"><div class="how-step-pill-dot"></div><div class="how-step-pill-text"><strong>Gradual habit change</strong> compounds. Small daily wins add up to a meaningfully different relationship with their phone.</div></div>
-          </div>
+          <h3 class="how-step-title">Lasting change is <em>a team sport.</em></h3>
+          <p class="how-step-body">Every user gets free licenses to share with the people closest to them. A partner, a friend, a sibling. They download the app, join the group, and work on it together. Shared progress, shared accountability, and a reason to keep going.</p>
         </div>
 
       </div>
@@ -900,144 +821,21 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
       <!-- Right: sticky phone -->
       <div class="how-phone-col">
         <div class="how-phone-wrap">
-          <div class="how-phone-frame" id="howPhoneFrame">
+          <div class="how-phone-frame how-phone-frame--native-shots" id="howPhoneFrame">
             <div class="how-phone-notch"></div>
 
-            <!-- Screen 0: Widget on home screen -->
+            <!-- Device screenshots: add assets/how-step-1.png … how-step-4.png (widget → intention → timer → reflection) -->
             <div class="how-screen active" id="screen-0">
-              <div class="screen-placeholder sp-homescreen">
-                <div class="sp-statusbar" style="background:rgba(255,255,255,.08);">
-                  <span class="sp-statusbar-time" style="color:rgba(255,255,255,.5);">9:41</span>
-                </div>
-                <div class="sp-content">
-                  <!-- placeholder app icons row -->
-                  <div class="sp-app-icon" style="background:rgba(255,255,255,.06);border-radius:14px;"><span style="font-size:18px;">📷</span><span class="sp-app-icon-lbl">Camera</span></div>
-                  <!-- widget overlay spanning full width -->
-                  <div class="sp-widget-overlay" style="grid-column:1/-1;">
-                    <div class="sp-widget-hd">
-                      <div class="sp-widget-dot"></div>
-                      <div>
-                        <div class="sp-widget-title" style="font-family:var(--font-display);font-size:9px;font-weight:700;">Return to <span style="color:var(--accent);">Now</span></div>
-                      </div>
-                    </div>
-                    <div style="font-size:7.5px;color:var(--muted-fg);margin-bottom:8px;font-weight:500;">Open with intention →</div>
-                    <div class="sp-widget-apps">
-                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:linear-gradient(135deg,#F77737,#C13584);border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">Instagram</div></div>
-                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:#000;border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">TikTok</div></div>
-                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:#f00;border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">YouTube</div></div>
-                      <div class="sp-wapp"><div class="sp-wapp-ic" style="background:#111;border-radius:3px;width:14px;height:14px;"></div><div class="sp-wapp-lbl">X</div></div>
-                    </div>
-                  </div>
-                  <!-- placeholder screenshot note -->
-                  <div style="grid-column:1/-1;background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:9px;padding:8px;text-align:center;">
-                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
-                    <div style="font-size:6.5px;color:rgba(255,255,255,.3);margin-top:2px;">Home screen widget view</div>
-                  </div>
-                </div>
-              </div>
+              <img src="assets/how-step-1.png" alt="Home screen with the Return to Now widget before opening social apps" decoding="async" fetchpriority="high">
             </div>
-
-            <!-- Screen 1: Intention setting -->
             <div class="how-screen" id="screen-1">
-              <div class="screen-placeholder sp-intention">
-                <div class="sp-statusbar"><span class="sp-statusbar-time">9:41</span></div>
-                <div class="sp-int-header">
-                  <div class="sp-int-app-row" style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-                    <div class="sp-int-app-ic" style="background:linear-gradient(135deg,#F77737,#C13584);">Ig</div>
-                    <span class="sp-int-app-name">Opening Instagram</span>
-                  </div>
-                  <div class="sp-int-q">Why are you opening this right now?</div>
-                </div>
-                <div class="sp-int-body">
-                  <div class="sp-int-option selected">
-                    <div class="sp-int-opt-text">Stay connected with people I care about</div>
-                    <div class="sp-int-opt-sub">Check in on family &amp; friends</div>
-                  </div>
-                  <div class="sp-int-option">
-                    <div class="sp-int-opt-text">I just need a quick break</div>
-                    <div class="sp-int-opt-sub">10 minutes, then back to it</div>
-                  </div>
-                  <div class="sp-int-option">
-                    <div class="sp-int-opt-text">Something else</div>
-                    <div class="sp-int-opt-sub">Set your own intention</div>
-                  </div>
-                  <div style="background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:8px;padding:7px;text-align:center;margin-top:4px;">
-                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
-                    <div style="font-size:6px;color:var(--muted-fg);margin-top:1px;">Intention prompt screen</div>
-                  </div>
-                </div>
-                <div class="sp-int-cta">Open Instagram →</div>
-              </div>
+              <img src="assets/how-step-2.png" alt="Intention prompt asking why you are opening the app" decoding="async" loading="lazy">
             </div>
-
-            <!-- Screen 2: Session timer -->
             <div class="how-screen" id="screen-2">
-              <div class="screen-placeholder sp-timer">
-                <div class="sp-statusbar" style="background:rgba(255,255,255,.04);">
-                  <span class="sp-statusbar-time" style="color:rgba(255,255,255,.4);">9:41</span>
-                </div>
-                <div class="sp-timer-content">
-                  <div class="sp-timer-app-row">
-                    <div class="sp-timer-app-ic" style="background:linear-gradient(135deg,#F77737,#C13584);">Ig</div>
-                    <span class="sp-timer-app-name">Instagram · Active</span>
-                  </div>
-                  <div class="sp-timer-circle">
-                    <div>
-                      <div class="sp-timer-n">8:24</div>
-                      <div class="sp-timer-unit">remaining</div>
-                    </div>
-                  </div>
-                  <div class="sp-timer-label">of your 10 min intention</div>
-                  <div class="sp-timer-intent">
-                    <div class="sp-timer-intent-lbl">Your intention</div>
-                    <div class="sp-timer-intent-val">Stay connected with people I care about</div>
-                  </div>
-                  <div style="background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:8px;padding:7px;text-align:center;width:100%;">
-                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
-                    <div style="font-size:6px;color:rgba(255,255,255,.3);margin-top:1px;">Session timer view</div>
-                  </div>
-                  <div class="sp-timer-actions">
-                    <div class="sp-timer-btn done">I'm done</div>
-                    <div class="sp-timer-btn extend">+5 min</div>
-                  </div>
-                </div>
-              </div>
+              <img src="assets/how-step-3.png" alt="In-app session timer" decoding="async" loading="lazy">
             </div>
-
-            <!-- Screen 3: Reflection -->
             <div class="how-screen" id="screen-3">
-              <div class="screen-placeholder sp-reflect">
-                <div class="sp-statusbar"><span class="sp-statusbar-time">9:51</span></div>
-                <div class="sp-reflect-header">
-                  <div class="sp-reflect-title">How did that go?</div>
-                  <div class="sp-reflect-sub">Instagram · 10 minutes</div>
-                </div>
-                <div class="sp-reflect-body">
-                  <div class="sp-reflect-q">Did you stick to your intention?</div>
-                  <div class="sp-reflect-opts">
-                    <div class="sp-reflect-opt selected">
-                      <span class="sp-reflect-opt-icon">✓</span>
-                      <span class="sp-reflect-opt-text">Yes — I'm done, felt intentional</span>
-                    </div>
-                    <div class="sp-reflect-opt">
-                      <span class="sp-reflect-opt-icon">↩</span>
-                      <span class="sp-reflect-opt-text">Kind of — got a bit distracted</span>
-                    </div>
-                    <div class="sp-reflect-opt">
-                      <span class="sp-reflect-opt-icon">✕</span>
-                      <span class="sp-reflect-opt-text">No — I got sucked in</span>
-                    </div>
-                  </div>
-                  <div class="sp-reflect-streak">
-                    <div class="sp-reflect-streak-n">5</div>
-                    <div class="sp-reflect-streak-lbl">day intentional<br>streak 🔥</div>
-                  </div>
-                  <div style="background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.3);border-radius:8px;padding:7px;text-align:center;">
-                    <div style="font-family:var(--font-mono);font-size:6px;color:rgba(16,185,129,.7);letter-spacing:.5px;text-transform:uppercase;">📸 Screenshot slot</div>
-                    <div style="font-size:6px;color:var(--muted-fg);margin-top:1px;">Post-session reflection</div>
-                  </div>
-                </div>
-              </div>
+              <img src="assets/how-step-4.png" alt="Brief reflection after a session" decoding="async" loading="lazy">
             </div>
 
           </div>
@@ -1072,26 +870,26 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     <div class="why-grid">
       <div>
         <div class="kicker">Why it works</div>
-        <h2 class="sec-h2">Other apps block access. We help people <em>replace the habit.</em></h2>
-        <p class="why-sub">Blunt restrictions work until they don't. People delete focus-blocking apps within a week because nothing fills the void. Return to Now is built on a fundamentally different premise.</p>
+        <h2 class="sec-h2">Screen blocking apps treat the symptom. Return to Now treats the cause.</h2>
         <div class="cmp-row">
           <div class="cmp bad">
-            <div class="cmp-lbl">Focus blockers</div>
-            <div class="cmp-title">Block access cold</div>
-            <div class="cmp-desc">No replacement habit. Willpower depletes. Most users delete them within a week.</div>
+            <div class="cmp-lbl">Screen blocking apps</div>
+            <div class="cmp-title">Treat the symptom</div>
+            <div class="cmp-desc">Block the app, ignore the urge. Willpower depletes and the habit comes back. Most users delete them within a week.</div>
           </div>
           <div class="cmp good">
             <div class="cmp-lbl">Return to Now</div>
-            <div class="cmp-title">Replace the habit</div>
-            <div class="cmp-desc">Help your people connect their phone time to what actually matters to them. Change because they want to.</div>
+            <div class="cmp-title">Treat the cause</div>
+            <div class="cmp-desc">Help people understand why they reach for their phone and build the intention to use it differently. Change that actually lasts.</div>
           </div>
         </div>
+        <p class="why-cite-mobile">Based on habit replacement research by Dr. Judson Brewer, Brown University.</p>
       </div>
-      <div>
+      <div class="why-research-col">
         <div class="research-card">
           <div class="rq-mark">"</div>
-          <p class="rq-text">You're significantly more likely to follow through on a goal when you have a specific plan — not just the intention, but the when, where, and why.</p>
-          <div class="rq-attr">Based on implementation intention research by Dr. Peter Gollwitzer, NYU. The behavioral science principle behind Return to Now's core mechanic.</div>
+          <p class="rq-text">Most people try to break habits by using willpower to not do the behavior, which is extremely difficult because the reward-based learning process is so powerful. Instead, we need to update that reward value by finding a bigger, better reward.</p>
+          <div class="rq-attr">Dr. Judson Brewer, psychiatrist and neuroscientist, Brown University. The principle behind why Return to Now focuses on replacement, not restriction.</div>
         </div>
       </div>
     </div>
@@ -1126,36 +924,16 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   </div>
 </section>
 
-<!-- CHIPS -->
-<div class="chips-strip">
-  <div class="sw">
-    <div class="chips-kicker">What your team will make time for</div>
-    <div class="chips">
-      <span class="chip mint">Be more present with the people I love</span>
-      <span class="chip tan">Work on something I'm proud of</span>
-      <span class="chip mint">Take better care of myself</span>
-      <span class="chip tan">Write in my journal</span>
-      <span class="chip mint">Read more books</span>
-      <span class="chip tan">Learn a new skill</span>
-      <span class="chip mint">Spend more time outside</span>
-      <span class="chip tan">Cook real meals</span>
-    </div>
-  </div>
-</div>
-
 <!-- BENEFIT MODEL -->
 <section class="benefit" id="benefit">
   <div class="sw">
     <div class="benefit-grid">
       <div>
-        <div class="kicker light">The benefit</div>
+        <div class="kicker light">For your organization</div>
         <h2 class="sec-h2 white">A wellness benefit your team will actually <em>want to use.</em></h2>
-        <p class="benefit-body">Return to Now is offered as an employer-sponsored benefit. Your organization covers access for your team — and each person gets additional licenses to share with family and friends, so they're never on the journey alone.</p>
         <div class="benefit-feats">
-          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Simple rollout.</strong> Your people download the app and activate their seat with a company code. No IT integration required.</div></div>
-          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Each person gets extra licenses</strong> to invite the people in their life — a partner, a sibling, a friend. Sponsored by you, at no cost to them.</div></div>
-          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Aggregate participation data only.</strong> You see enrollment numbers. You never see individual usage or session details.</div></div>
-          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Your brand, front and center.</strong> Your people see your organization's name as the sponsor — a clear, visible signal that you invest in their wellbeing.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Each employee gets free licenses</strong> to share with a partner, friend, or family member. Accountability is one of the most reliable drivers of habit change.</div></div>
+          <div class="benefit-feat"><div class="benefit-dot"></div><div class="benefit-ft"><strong>Aggregate data only.</strong> You see enrollment and participation rates. Individual usage is always private.</div></div>
         </div>
       </div>
       <div>
@@ -1196,7 +974,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
               <span class="benefit-badge free">Free license</span>
             </div>
             <div style="padding:14px 16px;background:rgba(16,185,129,.08);border-radius:var(--radius-lg);border:1px solid rgba(16,185,129,.2);margin-top:4px;">
-              <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;">Each additional license is covered by your organization. Your team sees it as a benefit extended to the people they love — which is exactly what it is.</div>
+              <div class="benefit-tier-note">Each additional license is covered by your organization. Your team sees it as a benefit extended to the people they love, which is exactly what it is.</div>
             </div>
           </div>
         </div>
@@ -1204,6 +982,23 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     </div>
   </div>
 </section>
+
+<!-- CHIPS -->
+<div class="chips-strip">
+  <div class="sw">
+    <div class="chips-kicker">What your team will make time for</div>
+    <div class="chips">
+      <span class="chip mint">Be more present with the people I love</span>
+      <span class="chip tan">Work on something I'm proud of</span>
+      <span class="chip mint">Take better care of myself</span>
+      <span class="chip tan">Write in my journal</span>
+      <span class="chip mint">Read more books</span>
+      <span class="chip tan">Learn a new skill</span>
+      <span class="chip mint">Spend more time outside</span>
+      <span class="chip tan">Cook real meals</span>
+    </div>
+  </div>
+</div>
 
 <!-- CTA -->
 <section class="cta" id="cta">
