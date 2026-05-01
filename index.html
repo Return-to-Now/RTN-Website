@@ -107,7 +107,8 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 }
 
 /* HERO */
-.hero{min-height:100vh;background:var(--dark);display:flex;align-items:center;padding:120px 48px 80px;}
+.hero{min-height:100vh;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 48px 80px;}
+.hero-title-wrap{width:100%;max-width:900px;margin:0 auto;text-align:center;}
 .hero-inner{max-width:900px;margin:0 auto;width:100%;text-align:center;}
 .hero-h1{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#fff;margin-bottom:80px;}
 .hero-h1 em{font-style:normal;color:var(--accent);}
@@ -130,6 +131,10 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .btn-green:hover{opacity:.9;}
 .btn-ghost{padding:16px 28px;min-height:60px;background:transparent;color:var(--on-dark-muted);border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.14);transition:background .15s,color .15s;}
 .btn-ghost:hover{background:rgba(255,255,255,.07);}
+@media (min-width:768px){
+  .hero{padding-left:32px;padding-right:32px;}
+  .hero-title-wrap{max-width:1040px;}
+}
 @media (max-width:767px){
   .hero{
     min-height:100svh;
@@ -255,7 +260,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 @media (max-width:720px){
   .how-intro{padding-left:16px;padding-right:16px;}
 }
-.how-scroll-section{display:grid;grid-template-columns:1fr 480px;max-width:1100px;margin:0 auto;padding:0 48px;}
+.how-scroll-section{display:grid;grid-template-columns:1fr 480px;max-width:1100px;margin:0 auto;padding:0 48px;column-gap:0;}
 
 /* Steps column */
 .how-steps-col{padding-right:80px;}
@@ -266,6 +271,36 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .how-step-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,42px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#fff;margin-bottom:18px;}
 .how-step-title em{font-style:normal;color:var(--accent);}
 .how-step-body{font-size:17px;line-height:1.75;color:var(--on-dark-muted);margin-bottom:28px;max-width:420px;}
+
+/* Tablet / small laptop: 1fr + 480px leaves a stringy text column — share width with a smaller device track and grid gap */
+@media (min-width:768px) and (max-width:1099px){
+  .how-scroll-section{
+    grid-template-columns:minmax(0,1fr) minmax(220px,36vw);
+    max-width:100%;
+    padding:0 clamp(20px,4vw,40px);
+    column-gap:clamp(20px,3vw,36px);
+  }
+  .how-steps-col{padding-right:0;}
+  /* Headline + body stay short of the phone for a clearer text column */
+  .how-step-title{max-width:min(420px,100%);}
+  .how-step-body{max-width:min(380px,100%);}
+  /* Inset the device from the viewport edge without tightening the copy column */
+  .how-phone-col{padding-right:clamp(24px,5vw,56px);}
+  .how-phone-wrap{width:min(240px,36vw);}
+  .how-phone-frame{
+    width:min(240px,36vw);
+    height:calc((min(240px,36vw) - 12px) * 2556 / 1179 + 12px);
+  }
+  .how-step-item{padding:64px 0;}
+}
+@media (min-width:768px) and (max-width:900px){
+  .how-scroll-section{grid-template-columns:minmax(0,1fr) min(220px,34vw);}
+  .how-phone-wrap{width:min(220px,34vw);}
+  .how-phone-frame{
+    width:min(220px,34vw);
+    height:calc((min(220px,34vw) - 12px) * 2556 / 1179 + 12px);
+  }
+}
 
 /* Sticky phone column */
 .how-phone-col{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;}
@@ -323,6 +358,12 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .rq-text{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.4;letter-spacing:-0.01em;color:var(--fg);margin-bottom:20px;}
 .rq-attr{font-size:12px;color:var(--muted-fg);border-top:1px solid var(--card-border);padding-top:16px;line-height:1.5;}
 
+/* WHY — tablet: two equal columns squeeze the compare cards and the quote; stack for readable width */
+@media (min-width:768px) and (max-width:1099px){
+  .why{padding:96px clamp(20px,4vw,40px);}
+  .why-grid{grid-template-columns:1fr;gap:44px;}
+}
+
 /* PHILOSOPHY — hidden for now (remove display:none to restore section) */
 section.phil{display:none;}
 .phil{padding:120px 48px;background:var(--bg);}
@@ -379,6 +420,15 @@ section.phil{display:none;}
 .btn-outline{padding:16px 32px;min-height:60px;background:transparent;color:var(--fg);border-radius:var(--radius-cta);font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;border:1px solid var(--border);transition:background .15s;}
 .btn-outline:hover{background:var(--card-bg);}
 .cta-note{margin-top:20px;font-size:12px;color:var(--muted-fg);}
+
+@media (min-width:768px){
+  .cta{padding-left:24px;padding-right:24px;}
+  .cta-inner{max-width:1100px;}
+  .cta-h2{font-size:clamp(30px,3.85vw,54px);}
+}
+@media (min-width:1024px){
+  .cta-h2{white-space:nowrap;}
+}
 
 footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.06);}
 .footer-logo{display:flex;align-items:center;line-height:0;text-decoration:none;}
@@ -708,8 +758,10 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-inner">
+  <div class="hero-title-wrap">
     <h1 class="hero-h1">Your organization's biggest wellness crisis <em>fits in your pocket.</em></h1>
+  </div>
+  <div class="hero-inner">
     <div class="hero-stats-wrap" id="heroStats" aria-label="Key statistics">
       <div class="hero-stats-grid" id="heroStatsGrid">
         <div class="hstat" data-hero-stat data-value="33" data-suffix="">
@@ -1004,14 +1056,11 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 <!-- CTA -->
 <section class="cta" id="cta">
   <div class="cta-inner">
-    <div class="kicker" style="text-align:center;">Get started</div>
-    <h2 class="cta-h2">Your people deserve a benefit that <em>actually helps.</em></h2>
-    <p class="cta-sub">We'd love to show you how Return to Now works and talk through what a rollout would look like for your organization. No pressure — just a conversation.</p>
+    <h2 class="cta-h2">Your people are ready for this. <em>Are you?</em></h2>
+    <p class="cta-sub">We'll follow up within one business day.</p>
     <div class="cta-btns">
       <a href="#" class="btn-black">Request a demo</a>
-      <a href="#" class="btn-outline">Download the overview</a>
     </div>
-    <p class="cta-note">Typically a 30-minute call. We'll follow up within one business day.</p>
   </div>
 </section>
 
