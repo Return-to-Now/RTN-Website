@@ -33,11 +33,6 @@
   --font-mono:"JetBrains Mono",ui-monospace,monospace;
 }
 html{scroll-behavior:smooth;}
-/* Mobile: avoid document scroll-snap — it fights sticky + momentum on iOS and jitters when
-   scrolling up through #how (snap “sticks” vs rubber-band / sticky reflow). */
-@media (max-width:767px) and (prefers-reduced-motion:reduce){
-  html{scroll-snap-type:none;}
-}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:16px;line-height:1.5;overflow-x:hidden;}
 
 /* NAV */
@@ -448,11 +443,21 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 /* HOW IT WORKS — mobile sticky-scroll (vertical).
    Phone sticks near top of viewport, steps scroll past and
    drive the active screen via IntersectionObserver.
-   Each step is ~one viewport tall for readable pacing (no document scroll-snap — avoids jitter). */
+   While html.how-m-snap-on, scroll-padding defines top-edge inset; JS scrollTo(smooth) on scroll end
+   only at #how section entry/exit — free scroll between steps. */
 @media (max-width:767px){
+  :root{
+    /* Same as .how --how-m-sticky — baseline for scroll-padding when snap is active */
+    --how-m-snap-pad:calc(64px + 12px + (200px - 12px) * 2556 / 1179 + 12px + 24px);
+    /* Pull snapped steps a bit closer to the phone (smaller inset than full sticky stack). */
+    --how-m-snap-tighten:44px;
+  }
+  html.how-m-snap-on{
+    scroll-padding-top:max(72px, calc(var(--how-m-snap-pad) - var(--how-m-snap-tighten)));
+  }
   .how{
     /* Sticky stack: nav + phone column padding + frame (matches iPhone PNG aspect) + gap under phone */
-    --how-m-sticky:calc(64px + 12px + (200px - 12px) * 2556 / 1179 + 12px + 24px);
+    --how-m-sticky:var(--how-m-snap-pad);
   }
   .how-intro{
     min-height:100svh;
@@ -490,7 +495,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     opacity:.12;
     transform:translateY(8px);
     transition:opacity .45s ease, transform .45s ease;
-    scroll-margin-top:var(--how-m-sticky) !important;
+    scroll-margin-top:72px;
   }
   .how-step-item:first-child{padding-top:24px;}
   /* Last step: extra bottom margin so scroll can ease into #why */
@@ -514,6 +519,8 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     top:72px !important; /* below 64px nav + breathing room */
     height:auto;
     padding:12px 0 20px;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
     z-index:5;
     background:linear-gradient(to bottom, var(--dark) 0%, var(--dark) 85%, transparent 100%);
     margin:0 -20px;
@@ -1301,6 +1308,101 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   }
 })();
 
+// Mobile: light snap only at #how section edges (enter / exit); middle is free scroll like Apple-style scrub.
+(function () {
+  const how = document.getElementById('how');
+  const mq = window.matchMedia('(max-width:767px)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)');
+  if (!how) return;
+
+  const PROX_MIN = 4;
+  /** Max px from an edge anchor to glide — only top/bottom of #how, not per-step. */
+  const PROX_EDGE_MAX = 210;
+  const EXIT_VIEWPORT_PAD = 18;
+  let settleIgnoreUntil = 0;
+  let settleDebounce = null;
+
+  function snapAllowed() {
+    const p = document.body.dataset.howPattern;
+    if (p === 'accordion' || p === 'stacked') return false;
+    return true;
+  }
+
+  function updateHowSnap() {
+    const root = document.documentElement;
+    if (!mq.matches || reduceMotion.matches || !snapAllowed()) {
+      root.classList.remove('how-m-snap-on');
+      return;
+    }
+    const r = how.getBoundingClientRect();
+    const h = window.innerHeight || 1;
+    const slack = h * 0.12;
+    const on = r.bottom > -slack && r.top < h + slack;
+    root.classList.toggle('how-m-snap-on', on);
+  }
+
+  function nearestHowEdgeSnapTarget(sy) {
+    const root = document.documentElement;
+    if (!root.classList.contains('how-m-snap-on')) return null;
+    const inset = parseFloat(getComputedStyle(root).scrollPaddingTop) || 72;
+    const h = window.innerHeight || 1;
+    const hr = how.getBoundingClientRect();
+    const yEnter = Math.max(0, sy + hr.top - inset);
+    const yExit = Math.max(0, sy + hr.bottom - h + EXIT_VIEWPORT_PAD);
+    const candidates = [
+      { y: yEnter, dist: Math.abs(sy - yEnter) },
+      { y: yExit, dist: Math.abs(sy - yExit) },
+    ];
+    let best = null;
+    for (let i = 0; i < candidates.length; i++) {
+      const c = candidates[i];
+      if (c.dist < PROX_MIN || c.dist > PROX_EDGE_MAX) continue;
+      if (!best || c.dist < best.dist) best = c;
+    }
+    return best ? { y: best.y, dist: best.dist } : null;
+  }
+
+  function onScrollSettled() {
+    if (Date.now() < settleIgnoreUntil) return;
+    if (!mq.matches || reduceMotion.matches || !snapAllowed()) return;
+    if (!document.documentElement.classList.contains('how-m-snap-on')) return;
+    const sy = window.scrollY;
+    const hit = nearestHowEdgeSnapTarget(sy);
+    if (!hit) return;
+    settleIgnoreUntil = Date.now() + 650;
+    window.scrollTo({ top: hit.y, behavior: 'smooth' });
+  }
+
+  window.addEventListener('scroll', updateHowSnap, { passive: true });
+  if (typeof window.onscrollend !== 'undefined') {
+    window.addEventListener('scrollend', onScrollSettled, { passive: true });
+  } else {
+    window.addEventListener(
+      'scroll',
+      function () {
+        clearTimeout(settleDebounce);
+        settleDebounce = setTimeout(onScrollSettled, 145);
+      },
+      { passive: true }
+    );
+  }
+
+  if (typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', updateHowSnap);
+    reduceMotion.addEventListener('change', updateHowSnap);
+  } else {
+    mq.addListener(updateHowSnap);
+    reduceMotion.addListener(updateHowSnap);
+  }
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(updateHowSnap, {
+      threshold: [0, 0.05, 0.15, 0.35, 0.55, 0.75, 1],
+    });
+    io.observe(how);
+  }
+  updateHowSnap();
+})();
+
 // Sticky scroll on both desktop and mobile — steps scroll past a pinned phone.
 (function () {
   const stepItems = document.querySelectorAll('.how-step-item');
@@ -1362,12 +1464,15 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   function pickActiveStepIndexMobile() {
     const frame = document.getElementById('howPhoneFrame');
     const h = window.innerHeight || 1;
-    const line = frame
+    const readLine = frame
       ? frame.getBoundingClientRect().bottom + 48
       : h * 0.36;
+    /* Advance slide before the step headline crosses the read line (px further down viewport). */
+    const MOBILE_IMAGE_LEAD_PX = 120;
+    const triggerLine = readLine + MOBILE_IMAGE_LEAD_PX;
     let current = 0;
     stepItems.forEach((el, i) => {
-      if (el.getBoundingClientRect().top <= line) current = i;
+      if (el.getBoundingClientRect().top <= triggerLine) current = i;
     });
     return current;
   }
