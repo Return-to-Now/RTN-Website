@@ -33,10 +33,8 @@
   --font-mono:"JetBrains Mono",ui-monospace,monospace;
 }
 html{scroll-behavior:smooth;}
-@media (max-width:767px){
-  /* Proximity only: mandatory on the whole document trapped scroll after the last #how snap */
-  html{scroll-snap-type:y proximity;}
-}
+/* Mobile: avoid document scroll-snap — it fights sticky + momentum on iOS and jitters when
+   scrolling up through #how (snap “sticks” vs rubber-band / sticky reflow). */
 @media (max-width:767px) and (prefers-reduced-motion:reduce){
   html{scroll-snap-type:none;}
 }
@@ -450,7 +448,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 /* HOW IT WORKS — mobile sticky-scroll (vertical).
    Phone sticks near top of viewport, steps scroll past and
    drive the active screen via IntersectionObserver.
-   Each step is ~one viewport tall so one snap advance = one step (both directions). */
+   Each step is ~one viewport tall for readable pacing (no document scroll-snap — avoids jitter). */
 @media (max-width:767px){
   .how{
     /* Sticky stack: nav + phone column padding + frame (matches iPhone PNG aspect) + gap under phone */
@@ -465,7 +463,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     padding:calc(64px + 24px) 20px max(40px,env(safe-area-inset-bottom,0px));
     margin-bottom:56px;
     box-sizing:border-box;
-    scroll-snap-align:start;
     scroll-margin-top:64px;
   }
   .how-intro .sec-h2.white{font-size:28px;line-height:1.15;}
@@ -476,7 +473,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   .how-scroll-section{
     display:flex;
     flex-direction:column;
-    /* Extra bottom space so the last step can snap correctly and scroll can exit into #why */
+    /* Extra bottom space so the last step clears the sticky stack and scroll can exit into #why */
     padding:0 20px max(120px,calc(24px + env(safe-area-inset-bottom,0px)));
     position:relative;
   }
@@ -492,13 +489,11 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     justify-content:flex-start;
     opacity:.12;
     transform:translateY(8px);
-    transition:opacity .45s ease, transform .45s ease, filter .45s ease;
-    filter:blur(2px);
-    scroll-snap-align:start;
+    transition:opacity .45s ease, transform .45s ease;
     scroll-margin-top:var(--how-m-sticky) !important;
   }
   .how-step-item:first-child{padding-top:24px;}
-  /* Last step: bottom snap margin so start alignment isn’t flush with section end; room for overscroll */
+  /* Last step: extra bottom margin so scroll can ease into #why */
   .how-step-item:last-child{
     padding-bottom:max(48px,env(safe-area-inset-bottom,0px));
     scroll-margin-bottom:80px;
@@ -508,7 +503,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   .how-step-item.is-mobile-incoming{
     opacity:1;
     transform:translateY(0);
-    filter:blur(0);
     display:flex;
   }
   .how-step-title{font-size:22px;line-height:1.2;margin-bottom:12px;}
@@ -1352,21 +1346,66 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
       lastScrollY = y;
       refreshMobileIncoming(lastActiveIndex);
     }
+    if (mq.matches) syncActiveFromLayout();
+  }
+
+  /** Desktop: middle strip of the viewport (IO rootMargin — stable when multiple steps touch the band). */
+  function getHowTriggerZoneDesktop() {
+    const h = window.innerHeight || 1;
+    return { top: h * 0.4, bottom: h * 0.6 };
+  }
+
+  /**
+   * Mobile: steps are ~1 viewport tall with copy at the top — using the box midpoint lags the image.
+   * Use a read line just under the sticky phone; active step = last step whose top has crossed that line.
+   */
+  function pickActiveStepIndexMobile() {
+    const frame = document.getElementById('howPhoneFrame');
+    const h = window.innerHeight || 1;
+    const line = frame
+      ? frame.getBoundingClientRect().bottom + 48
+      : h * 0.36;
+    let current = 0;
+    stepItems.forEach((el, i) => {
+      if (el.getBoundingClientRect().top <= line) current = i;
+    });
+    return current;
+  }
+
+  function pickActiveStepIndex() {
+    if (mq.matches) return pickActiveStepIndexMobile();
+    const { top: zt, bottom: zb } = getHowTriggerZoneDesktop();
+    const mid = (zt + zb) / 2;
+    const candidates = [];
+    stepItems.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < zb && r.bottom > zt) {
+        const c = (r.top + r.bottom) / 2;
+        candidates.push({ i, d: Math.abs(c - mid) });
+      }
+    });
+    if (!candidates.length) return null;
+    candidates.sort((a, b) => a.d - b.d || a.i - b.i);
+    return candidates[0].i;
+  }
+
+  function syncActiveFromLayout() {
+    const idx = pickActiveStepIndex();
+    if (idx === null) return;
+    if (idx !== lastActiveIndex) setActiveScreen(idx);
   }
 
   function attachObserver() {
     if (observer) observer.disconnect();
-    // Mobile: phone sticks at top; trigger when step crosses middle-lower viewport.
-    // Desktop: phone sticks centered; trigger zone is mid-viewport.
+    // Mobile: phone sticks at top; desktop: phone centered — same mid-viewport band as before.
     const rootMargin = mq.matches
       ? '-45% 0px -35% 0px'
       : '-40% 0px -40% 0px';
-    observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) setActiveScreen(parseInt(entry.target.dataset.step));
-      });
-    }, { rootMargin, threshold: 0 });
+    observer = new IntersectionObserver(() => {
+      syncActiveFromLayout();
+    }, { rootMargin, threshold: [0, 0.25, 0.5, 0.75, 1] });
     stepItems.forEach(item => observer.observe(item));
+    syncActiveFromLayout();
   }
 
   // Initial
