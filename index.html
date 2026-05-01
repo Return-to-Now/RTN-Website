@@ -189,7 +189,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .body-copy p{margin-bottom:16px;}
 
 /* PROBLEM */
-.problem{padding:120px 48px;background:var(--bg);}
+.problem{padding:160px 48px;background:var(--bg);}
 .prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
 .prob-right{display:flex;flex-direction:column;gap:12px;}
 .stat-dark{background:var(--dark);border-radius:var(--radius-xl);padding:28px;box-shadow:var(--shadow-card);}
@@ -336,7 +336,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .how-phone-dot.active{background:var(--accent);}
 
 /* WHY */
-.why{padding:120px 48px;background:var(--bg);}
+.why{padding:160px 48px;background:var(--bg);}
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
 #why .sec-h2{margin-bottom:32px;}
 .why-cite-mobile{display:none;font-size:12px;line-height:1.55;color:var(--muted-fg);margin:0;}
@@ -433,7 +433,7 @@ section.phil{display:none;}
 footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.06);}
 .footer-logo{display:flex;align-items:center;line-height:0;text-decoration:none;}
 .footer-logo img{height:34px;width:auto;display:block;}
-.footer-links{display:flex;gap:24px;}
+.footer-links{display:none;}
 .footer-links a{font-size:13px;color:var(--on-dark-muted);text-decoration:none;transition:color .15s;}
 .footer-links a:hover{color:rgba(255,255,255,.92);}
 .footer-copy{font-size:12px;color:var(--on-dark-muted);}
@@ -460,7 +460,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 .form-submit{padding:16px;background:var(--fg);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:opacity .15s;margin-top:4px;}
 .form-submit:hover{opacity:.88;}
 .form-submit:disabled{opacity:.5;cursor:not-allowed;}
-.modal-note{font-size:12px;color:var(--muted-fg);text-align:center;margin-top:8px;}
 
 /* success state */
 .modal-success{display:none;flex-direction:column;align-items:center;text-align:center;padding:20px 0;}
@@ -1042,13 +1041,14 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     <div class="chips-kicker">What your team will make time for</div>
     <div class="chips">
       <span class="chip mint">Be more present with the people I love</span>
-      <span class="chip tan">Work on something I'm proud of</span>
-      <span class="chip mint">Take better care of myself</span>
-      <span class="chip tan">Write in my journal</span>
+      <span class="chip tan">Get more sleep</span>
+      <span class="chip mint">Actually unwind after work</span>
+      <span class="chip tan">Take better care of myself</span>
+      <span class="chip mint">Be more focused at work</span>
+      <span class="chip tan">Spend more time outside</span>
       <span class="chip mint">Read more books</span>
-      <span class="chip tan">Learn a new skill</span>
-      <span class="chip mint">Spend more time outside</span>
-      <span class="chip tan">Cook real meals</span>
+      <span class="chip tan">Make progress on something that matters to me</span>
+      <span class="chip mint">Learn a new skill</span>
     </div>
   </div>
 </div>
@@ -1114,7 +1114,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
           <textarea class="form-input" id="message" name="message" placeholder="Context about your team, timing, specific questions..." rows="3" style="resize:vertical;line-height:1.6;"></textarea>
         </div>
         <button class="form-submit" type="submit" id="formSubmit">Request a demo</button>
-        <p class="modal-note">No spam. No hard sell. Just a conversation.</p>
       </form>
     </div>
     <div class="modal-success" id="modalSuccess">
