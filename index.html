@@ -524,23 +524,11 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 }
 
 /* HOW IT WORKS — mobile sticky-scroll (vertical).
-   Phone sticks near top of viewport, steps scroll past and
-   drive the active screen via IntersectionObserver.
-   While html.how-m-snap-on, scroll-padding defines top-edge inset; JS scrollTo(smooth) on scroll end
-   only at #how section entry/exit — free scroll between steps. */
+   Phone sticks near top of viewport; steps scroll past and drive the active screen via IntersectionObserver. */
 @media (max-width:767px){
-  :root{
-    /* Same as .how --how-m-sticky — baseline for scroll-padding when snap is active */
-    --how-m-snap-pad:calc(64px + 12px + (200px - 12px) * 2556 / 1179 + 12px + 24px);
-    /* Pull snapped steps a bit closer to the phone (smaller inset than full sticky stack). */
-    --how-m-snap-tighten:44px;
-  }
-  html.how-m-snap-on{
-    scroll-padding-top:max(72px, calc(var(--how-m-snap-pad) - var(--how-m-snap-tighten)));
-  }
   .how{
     /* Sticky stack: nav + phone column padding + frame (matches iPhone PNG aspect) + gap under phone */
-    --how-m-sticky:var(--how-m-snap-pad);
+    --how-m-sticky:calc(64px + 12px + (200px - 12px) * 2556 / 1179 + 12px + 24px);
   }
   .how-intro{
     min-height:100svh;
@@ -553,10 +541,18 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     box-sizing:border-box;
     scroll-margin-top:64px;
   }
-  .how-intro .sec-h2.white{font-size:28px;line-height:1.15;}
-  .how-scroll-hint{margin-top:28px;}
-  .how-scroll-hint-text{font-size:10px;}
-  .how-scroll-arrow{width:20px;height:20px;}
+  .how-intro .kicker.light{
+    font-size:11px;
+    letter-spacing:0.16em;
+    margin-bottom:22px;
+  }
+  .how-intro .sec-h2.white{
+    font-size:clamp(30px,7.8vw,38px);
+    line-height:1.12;
+  }
+  .how-scroll-hint{margin-top:32px; gap:10px;}
+  .how-scroll-hint-text{font-size:11px; letter-spacing:0.1em;}
+  .how-scroll-arrow{width:22px;height:22px;}
   /* Grid becomes single column, but we KEEP flex/positioning so sticky works */
   .how-scroll-section{
     display:flex;
@@ -646,9 +642,18 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     position:absolute;
     inset:0;
     width:100%;
-    padding:16px;
-    gap:12px;
+    padding:18px;
+    gap:14px;
     transform:none !important;
+  }
+  .how-phone-col[data-active="0"] .how-chip-stage .chip-cloud{
+    gap:12px;
+    max-width:100%;
+  }
+  .how-phone-col[data-active="0"] .how-chip-stage .chip-anim{
+    font-size:15px;
+    padding:10px 18px;
+    line-height:1.25;
   }
   .how-phone-col[data-active="0"] .how-screen.how-chip-stage.active,
   .how-phone-col[data-active="0"] .how-screen.how-chip-stage:not(.active){
@@ -1441,101 +1446,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   } else {
     onHeroEnter();
   }
-})();
-
-// Mobile: light snap only at #how section edges (enter / exit); middle is free scroll like Apple-style scrub.
-(function () {
-  const how = document.getElementById('how');
-  const mq = window.matchMedia('(max-width:767px)');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)');
-  if (!how) return;
-
-  const PROX_MIN = 4;
-  /** Max px from an edge anchor to glide — only top/bottom of #how, not per-step. */
-  const PROX_EDGE_MAX = 210;
-  const EXIT_VIEWPORT_PAD = 18;
-  let settleIgnoreUntil = 0;
-  let settleDebounce = null;
-
-  function snapAllowed() {
-    const p = document.body.dataset.howPattern;
-    if (p === 'accordion' || p === 'stacked') return false;
-    return true;
-  }
-
-  function updateHowSnap() {
-    const root = document.documentElement;
-    if (!mq.matches || reduceMotion.matches || !snapAllowed()) {
-      root.classList.remove('how-m-snap-on');
-      return;
-    }
-    const r = how.getBoundingClientRect();
-    const h = window.innerHeight || 1;
-    const slack = h * 0.12;
-    const on = r.bottom > -slack && r.top < h + slack;
-    root.classList.toggle('how-m-snap-on', on);
-  }
-
-  function nearestHowEdgeSnapTarget(sy) {
-    const root = document.documentElement;
-    if (!root.classList.contains('how-m-snap-on')) return null;
-    const inset = parseFloat(getComputedStyle(root).scrollPaddingTop) || 72;
-    const h = window.innerHeight || 1;
-    const hr = how.getBoundingClientRect();
-    const yEnter = Math.max(0, sy + hr.top - inset);
-    const yExit = Math.max(0, sy + hr.bottom - h + EXIT_VIEWPORT_PAD);
-    const candidates = [
-      { y: yEnter, dist: Math.abs(sy - yEnter) },
-      { y: yExit, dist: Math.abs(sy - yExit) },
-    ];
-    let best = null;
-    for (let i = 0; i < candidates.length; i++) {
-      const c = candidates[i];
-      if (c.dist < PROX_MIN || c.dist > PROX_EDGE_MAX) continue;
-      if (!best || c.dist < best.dist) best = c;
-    }
-    return best ? { y: best.y, dist: best.dist } : null;
-  }
-
-  function onScrollSettled() {
-    if (Date.now() < settleIgnoreUntil) return;
-    if (!mq.matches || reduceMotion.matches || !snapAllowed()) return;
-    if (!document.documentElement.classList.contains('how-m-snap-on')) return;
-    const sy = window.scrollY;
-    const hit = nearestHowEdgeSnapTarget(sy);
-    if (!hit) return;
-    settleIgnoreUntil = Date.now() + 650;
-    window.scrollTo({ top: hit.y, behavior: 'smooth' });
-  }
-
-  window.addEventListener('scroll', updateHowSnap, { passive: true });
-  if (typeof window.onscrollend !== 'undefined') {
-    window.addEventListener('scrollend', onScrollSettled, { passive: true });
-  } else {
-    window.addEventListener(
-      'scroll',
-      function () {
-        clearTimeout(settleDebounce);
-        settleDebounce = setTimeout(onScrollSettled, 145);
-      },
-      { passive: true }
-    );
-  }
-
-  if (typeof mq.addEventListener === 'function') {
-    mq.addEventListener('change', updateHowSnap);
-    reduceMotion.addEventListener('change', updateHowSnap);
-  } else {
-    mq.addListener(updateHowSnap);
-    reduceMotion.addListener(updateHowSnap);
-  }
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(updateHowSnap, {
-      threshold: [0, 0.05, 0.15, 0.35, 0.55, 0.75, 1],
-    });
-    io.observe(how);
-  }
-  updateHowSnap();
 })();
 
 // Sticky scroll on both desktop and mobile — steps scroll past a pinned phone.
