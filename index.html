@@ -302,9 +302,43 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
   }
 }
 
-/* Sticky phone column */
+/* Sticky phone column — padding-bottom nudges phone + chip block up vs. centered step copy */
 .how-phone-col{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;}
-.how-phone-wrap{position:relative;width:260px;}
+@media (min-width:768px){
+  .how-phone-col{padding-bottom:clamp(36px,4.5vh,80px);}
+}
+.how-phone-wrap{position:relative;width:260px;transition:opacity .45s ease, transform .45s ease;}
+/* Step 1 (chip cloud): hide phone frame until user reaches widget step */
+.how-phone-col[data-active="0"] .how-phone-wrap{opacity:0;pointer-events:none;transform:scale(.96);}
+/* Step 1 chip stage — replaces phone frame for that step; sibling of .how-phone-wrap inside sticky column */
+.how-chip-stage{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;padding:40px 32px;text-align:center;background:transparent;border-radius:0;
+  transition:opacity .45s ease, transform .45s ease;
+}
+.how-phone-col:not([data-active="0"]) #screen-0{opacity:0;pointer-events:none;}
+.how-chip-stage .chip-cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;max-width:380px;}
+.how-chip-stage .chip-anim{font-size:16px;padding:10px 18px;border-radius:999px;font-weight:600;line-height:1.2;white-space:nowrap;}
+.how-chip-stage .chip-anim.mint{background:rgba(16,185,129,0.12);color:#34D399;}
+.how-chip-stage .chip-anim.tan{background:rgba(239,232,221,0.1);color:rgba(239,232,221,0.75);}
+@media (prefers-reduced-motion: no-preference){
+  .how-chip-stage .chip-anim{opacity:0;transform:translateY(8px);}
+  .how-chip-stage.active .chip-anim{animation:chipFadeUp .5s cubic-bezier(.2,.7,.3,1) both;}
+  .how-chip-stage.active .chip-anim:nth-child(1){animation-delay:.18s;}
+  .how-chip-stage.active .chip-anim:nth-child(2){animation-delay:.26s;}
+  .how-chip-stage.active .chip-anim:nth-child(3){animation-delay:.34s;}
+  .how-chip-stage.active .chip-anim:nth-child(4){animation-delay:.42s;}
+  .how-chip-stage.active .chip-anim:nth-child(5){animation-delay:.50s;}
+  .how-chip-stage.active .chip-anim:nth-child(6){animation-delay:.58s;}
+  .how-chip-stage.active .chip-anim:nth-child(7){animation-delay:.66s;}
+  .how-chip-stage.active .chip-anim:nth-child(8){animation-delay:.74s;}
+  .how-chip-stage.active .chip-anim:nth-child(9){animation-delay:.82s;}
+  @keyframes chipFadeUp{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+}
 
 /* phone frame — height matches common iPhone full-screen PNG aspect (1179×2556); 6px bezel each side in calc */
 .how-phone-frame{
@@ -321,6 +355,7 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
   border-radius:30px; /* outer 36px − 6px border */
   transition:opacity .5s ease, transform .5s ease;opacity:0;transform:translateY(12px);
 }
+.how-screen.how-chip-stage{background:transparent;overflow:visible;border-radius:0;}
 .how-screen.active{opacity:1;transform:translateY(0);}
 .how-screen img{
   width:100%;height:100%;object-fit:contain;object-position:center center;display:block;
@@ -339,7 +374,6 @@ nav.nav-menu-open .nav-menu-backdrop{display:block;}
 .why{padding:160px 48px;background:var(--bg);}
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
 #why .sec-h2{margin-bottom:32px;}
-.why-cite-mobile{display:none;font-size:12px;line-height:1.55;color:var(--muted-fg);margin:0;}
 .cmp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .cmp{padding:20px;border-radius:var(--radius-xl);}
 .cmp.bad{background:var(--card);border:1px solid var(--card-border);box-shadow:var(--shadow-card);}
@@ -375,8 +409,8 @@ section.phil{display:none;}
 .phil-title{font-size:16px;font-weight:600;color:var(--fg);margin-bottom:10px;}
 .phil-body{font-size:14px;color:var(--muted-fg);line-height:1.7;}
 
-/* CHIPS */
-.chips-strip{padding:52px 48px;background:var(--card-bg);}
+/* CHIPS — hidden (strip above CTA); remove display:none to restore */
+.chips-strip{display:none;padding:52px 48px;background:var(--card-bg);}
 .chips-kicker{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#52525B;margin-bottom:18px;}
 .chips{display:flex;flex-wrap:wrap;gap:10px;}
 .chip{padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;}
@@ -576,6 +610,22 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     width:calc(100% + 40px);
   }
   .how-phone-wrap{width:200px;margin:0 auto;}
+  /* Chip cloud matches phone column footprint on narrow viewports */
+  .how-chip-stage{
+    position:absolute;
+    inset:auto;
+    top:0;left:50%;transform:translateX(-50%);
+    width:200px;
+    height:calc((200px - 12px) * 2556 / 1179 + 12px);
+    padding:24px 16px;
+    gap:14px;
+  }
+  .how-chip-stage .chip-cloud{max-width:100%;gap:10px;}
+  .how-chip-stage .chip-anim{font-size:13px;padding:7px 14px;}
+  /* Keep horizontal centering while .how-screen toggles translateY for enter/exit */
+  .how-screen.how-chip-stage:not(.active){transform:translateX(-50%) translateY(12px);}
+  .how-screen.how-chip-stage.active{transform:translateX(-50%) translateY(0);}
+  .how-screen.how-chip-stage{border-radius:0;background:transparent;}
   .how-phone-frame{
     width:200px;
     height:calc((200px - 12px) * 2556 / 1179 + 12px);
@@ -586,6 +636,25 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   .how-phone-dots{margin-top:10px;}
   .how-phone-dot{width:6px;height:6px;}
   .how-mobile-controls{display:none !important;}
+
+  /* Step 1 (chips): phone wrap stays in layout (opacity) so Step 2 crossfades without layout snap */
+  .how-phone-col[data-active="0"] .how-phone-wrap{
+    opacity:0;
+    pointer-events:none;
+  }
+  .how-phone-col[data-active="0"] .how-chip-stage{
+    position:absolute;
+    inset:0;
+    width:100%;
+    padding:16px;
+    gap:12px;
+    transform:none !important;
+  }
+  .how-phone-col[data-active="0"] .how-screen.how-chip-stage.active,
+  .how-phone-col[data-active="0"] .how-screen.how-chip-stage:not(.active){
+    transform:none !important;
+  }
+  .how-step-item:first-child{padding-top:18px;}
 }
 /* Hide mobile-only controls on desktop */
 @media (min-width:768px){
@@ -647,7 +716,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   .why{padding:72px 20px;}
   .why-grid{grid-template-columns:1fr;gap:32px;}
   .why-research-col{display:none;}
-  .why-cite-mobile{display:block;margin-top:20px;}
   .cmp-row{grid-template-columns:1fr;gap:10px;}
   .cmp{padding:18px;}
 }
@@ -846,47 +914,66 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 
         <div class="how-step-item" data-step="0">
           <div class="how-step-num">Step 01</div>
-          <h3 class="how-step-title">The widget <em>intercepts the reflex.</em></h3>
-          <p class="how-step-body">Most social media sessions start without a conscious decision. A home screen widget intercepts that moment, replacing app icons with Return to Now. One pause before the app opens is where change begins.</p>
+          <h3 class="how-step-title">First, they find their own <em>reason to change.</em></h3>
+          <p class="how-step-body">Change without a real reason doesn't last. The app helps each person name what they actually want: better sleep, being present with the people they care about, or progress towards a goal. That becomes their anchor.</p>
         </div>
 
         <div class="how-step-item" data-step="1">
           <div class="how-step-num">Step 02</div>
-          <h3 class="how-step-title">They set an <em>intention before opening.</em></h3>
-          <p class="how-step-body">A quick prompt asks two things: why they're opening the app, and how much time it's actually worth. That decision, made before they enter, is what separates intentional use from mindless scrolling.</p>
+          <h3 class="how-step-title">The widget <em>intercepts the reflex.</em></h3>
+          <p class="how-step-body">Most social media sessions start without a conscious decision. A home screen widget intercepts that moment, replacing app icons with Return to Now. One pause before the app opens is where change begins.</p>
         </div>
 
         <div class="how-step-item" data-step="2">
           <div class="how-step-num">Step 03</div>
-          <h3 class="how-step-title">The session ends with <em>one honest question.</em></h3>
-          <p class="how-step-body">When their time is up, Return to Now closes the session and asks whether they kept their intention. It's a small moment of self-reflection that compounds over time, helping individuals recognize the difference between intentional use and getting carried away.</p>
+          <h3 class="how-step-title">They set an <em>intention before opening.</em></h3>
+          <p class="how-step-body">A quick prompt asks two things: why they're opening the app, and how much time it's actually worth. That decision, made before they enter, is what separates intentional use from mindless scrolling.</p>
         </div>
 
         <div class="how-step-item" data-step="3">
           <div class="how-step-num">Step 04</div>
+          <h3 class="how-step-title">The session ends with <em>one honest question.</em></h3>
+          <p class="how-step-body">When their time is up, Return to Now closes the session and asks whether they kept their intention. It's a small moment of self-reflection that compounds over time, helping individuals recognize the difference between intentional use and getting carried away.</p>
+        </div>
+
+        <div class="how-step-item" data-step="4">
+          <div class="how-step-num">Step 05</div>
           <h3 class="how-step-title">Lasting change is <em>a team sport.</em></h3>
           <p class="how-step-body">Every user gets free licenses to share with the people closest to them. A partner, a friend, a sibling. They download the app, join the group, and work on it together. Shared progress, shared accountability, and a reason to keep going.</p>
         </div>
 
       </div>
 
-      <!-- Right: sticky phone -->
-      <div class="how-phone-col">
+      <!-- Right: sticky phone (+ step 1 chip cloud) -->
+      <div class="how-phone-col" data-active="0">
+
+        <div class="how-screen how-chip-stage" id="screen-0">
+          <div class="chip-cloud">
+            <span class="chip-anim mint">Better sleep</span>
+            <span class="chip-anim tan">Be present with the people I care about</span>
+            <span class="chip-anim mint">Actually unwind</span>
+            <span class="chip-anim tan">More time outdoors</span>
+            <span class="chip-anim mint">Make progress towards a goal</span>
+            <span class="chip-anim tan">Work on a creative project</span>
+            <span class="chip-anim mint">Learn a new skill</span>
+          </div>
+        </div>
+
         <div class="how-phone-wrap">
           <div class="how-phone-frame how-phone-frame--native-shots" id="howPhoneFrame">
             <div class="how-phone-notch"></div>
 
-            <!-- Device screenshots: add assets/how-step-1.png … how-step-4.png (widget → intention → timer → reflection) -->
-            <div class="how-screen active" id="screen-0">
+            <!-- Device screenshots: assets map to steps 2–5 (widget → intention → timer → reflection) -->
+            <div class="how-screen" id="screen-1">
               <img src="assets/how-step-1.png" alt="Home screen with the Return to Now widget before opening social apps" decoding="async" fetchpriority="high">
             </div>
-            <div class="how-screen" id="screen-1">
+            <div class="how-screen" id="screen-2">
               <img src="assets/how-step-2.png" alt="Intention prompt asking why you are opening the app" decoding="async" loading="lazy">
             </div>
-            <div class="how-screen" id="screen-2">
+            <div class="how-screen" id="screen-3">
               <img src="assets/how-step-3.png" alt="In-app session timer" decoding="async" loading="lazy">
             </div>
-            <div class="how-screen" id="screen-3">
+            <div class="how-screen" id="screen-4">
               <img src="assets/how-step-4.png" alt="Brief reflection after a session" decoding="async" loading="lazy">
             </div>
 
@@ -896,6 +983,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
             <div class="how-phone-dot" data-step-dot="1"></div>
             <div class="how-phone-dot" data-step-dot="2"></div>
             <div class="how-phone-dot" data-step-dot="3"></div>
+            <div class="how-phone-dot" data-step-dot="4"></div>
           </div>
         </div>
       </div>
@@ -906,7 +994,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           <span>Prev</span>
         </button>
-        <div class="how-mobile-counter" id="howCounter">01 / 04</div>
+        <div class="how-mobile-counter" id="howCounter">01 / 05</div>
         <button type="button" class="how-mobile-btn" id="howNext" aria-label="Next step">
           <span>Next</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
@@ -935,7 +1023,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
             <div class="cmp-desc">Help people understand why they reach for their phone and build the intention to use it differently. Change that actually lasts.</div>
           </div>
         </div>
-        <p class="why-cite-mobile">Based on habit replacement research by Dr. Judson Brewer, Brown University.</p>
       </div>
       <div class="why-research-col">
         <div class="research-card">
@@ -1456,8 +1543,7 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   const stepItems = document.querySelectorAll('.how-step-item');
   const screens = document.querySelectorAll('.how-screen');
   const dots = document.querySelectorAll('.how-phone-dot');
-  const total = stepItems.length;
-  if (!total) return;
+  if (!stepItems.length) return;
 
   const mq = window.matchMedia('(max-width:767px)');
   let observer = null;
@@ -1482,9 +1568,23 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
 
   function setActiveScreen(index) {
     lastActiveIndex = index;
+    if (index === 0) {
+      const stage = document.getElementById('screen-0');
+      if (stage) {
+        stage.classList.remove('active');
+        void stage.offsetWidth;
+      }
+    }
     screens.forEach((s, i) => s.classList.toggle('active', i === index));
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
     stepItems.forEach((s, i) => s.classList.toggle('is-mobile-active', i === index));
+    const col = document.querySelector('.how-phone-col');
+    if (col) col.setAttribute('data-active', String(index));
+    const counter = document.getElementById('howCounter');
+    if (counter) {
+      counter.textContent =
+        String(index + 1).padStart(2, '0') + ' / ' + String(stepItems.length).padStart(2, '0');
+    }
     refreshMobileIncoming(index);
   }
 
@@ -1510,12 +1610,18 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
    * Use a read line just under the sticky phone; active step = last step whose top has crossed that line.
    */
   function pickActiveStepIndexMobile() {
+    const col = document.querySelector('.how-phone-col');
     const frame = document.getElementById('howPhoneFrame');
+    const chip = document.getElementById('screen-0');
     const h = window.innerHeight || 1;
-    const readLine = frame
-      ? frame.getBoundingClientRect().bottom + 48
-      : h * 0.36;
-    /* Advance slide before the step headline crosses the read line (px further down viewport). */
+    let readLine;
+    if (col && col.getAttribute('data-active') === '0' && chip) {
+      readLine = chip.getBoundingClientRect().bottom + 40;
+    } else if (frame) {
+      readLine = frame.getBoundingClientRect().bottom + 48;
+    } else {
+      readLine = h * 0.36;
+    }
     const MOBILE_IMAGE_LEAD_PX = 120;
     const triggerLine = readLine + MOBILE_IMAGE_LEAD_PX;
     let current = 0;
@@ -1561,8 +1667,23 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     syncActiveFromLayout();
   }
 
-  // Initial
-  setActiveScreen(0);
+  const col = document.querySelector('.how-phone-col');
+  if (col) col.setAttribute('data-active', '0');
+
+  const howScrollSection = document.querySelector('.how-scroll-section') || document.querySelector('#how');
+  if (howScrollSection && 'IntersectionObserver' in window) {
+    const initObs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          setActiveScreen(0);
+          initObs.disconnect();
+        }
+      });
+    }, { threshold: 0.05 });
+    initObs.observe(howScrollSection);
+  } else {
+    setActiveScreen(0);
+  }
   attachObserver();
 
   // Re-attach on viewport change so rootMargin matches
