@@ -527,8 +527,10 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
    Phone sticks near top of viewport; steps scroll past and drive the active screen via IntersectionObserver. */
 @media (max-width:767px){
   .how{
-    /* Sticky stack: nav + phone column padding + frame (matches iPhone PNG aspect) + gap under phone */
-    --how-m-sticky:calc(64px + 12px + (200px - 12px) * 2556 / 1179 + 12px + 24px);
+    /* Narrower mockup + tighter sticky stack → more viewport for step copy */
+    --how-m-phone:172px;
+    /* Sticky stack: nav + phone column padding + frame (iPhone PNG aspect) + dots row */
+    --how-m-sticky:calc(64px + 8px + (var(--how-m-phone) - 12px) * 2556 / 1179 + 12px + 18px);
   }
   .how-intro{
     min-height:100svh;
@@ -574,9 +576,9 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     opacity:.12;
     transform:translateY(8px);
     transition:opacity .45s ease, transform .45s ease;
-    scroll-margin-top:72px;
+    scroll-margin-top:68px;
   }
-  .how-step-item:first-child{padding-top:24px;}
+  .how-step-item:first-child{padding-top:14px;}
   /* Last step: extra bottom margin so scroll can ease into #why */
   .how-step-item:last-child{
     padding-bottom:max(48px,env(safe-area-inset-bottom,0px));
@@ -589,15 +591,15 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     transform:translateY(0);
     display:flex;
   }
-  .how-step-title{font-size:22px;line-height:1.2;margin-bottom:12px;}
-  .how-step-body{font-size:15px;line-height:1.6;margin-bottom:18px;max-width:none;}
-  .how-step-num{font-size:10px;margin-bottom:12px;}
+  .how-step-title{font-size:22px;line-height:1.2;margin-bottom:10px;}
+  .how-step-body{font-size:15px;line-height:1.6;margin-bottom:16px;max-width:none;}
+  .how-step-num{font-size:10px;margin-bottom:10px;}
   /* Phone sticks to top of viewport on scroll */
   .how-phone-col{
     position:sticky;
-    top:72px !important; /* below 64px nav + breathing room */
+    top:68px !important; /* below 64px nav + small gap */
     height:auto;
-    padding:12px 0 20px;
+    padding:8px 0 14px;
     -webkit-backface-visibility:hidden;
     backface-visibility:hidden;
     z-index:5;
@@ -605,31 +607,31 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
     margin:0 -20px;
     width:calc(100% + 40px);
   }
-  .how-phone-wrap{width:200px;margin:0 auto;}
+  .how-phone-wrap{width:var(--how-m-phone);margin:0 auto;}
   /* Chip cloud matches phone column footprint on narrow viewports */
   .how-chip-stage{
     position:absolute;
     inset:auto;
     top:0;left:50%;transform:translateX(-50%);
-    width:200px;
-    height:calc((200px - 12px) * 2556 / 1179 + 12px);
-    padding:24px 16px;
-    gap:14px;
+    width:var(--how-m-phone);
+    height:calc((var(--how-m-phone) - 12px) * 2556 / 1179 + 12px);
+    padding:18px 12px;
+    gap:12px;
   }
   .how-chip-stage .chip-cloud{max-width:100%;gap:10px;}
-  .how-chip-stage .chip-anim{font-size:13px;padding:7px 14px;}
+  .how-chip-stage .chip-anim{font-size:12px;padding:6px 12px;}
   /* Keep horizontal centering while .how-screen toggles translateY for enter/exit */
   .how-screen.how-chip-stage:not(.active){transform:translateX(-50%) translateY(12px);}
   .how-screen.how-chip-stage.active{transform:translateX(-50%) translateY(0);}
   .how-screen.how-chip-stage{border-radius:0;background:transparent;}
   .how-phone-frame{
-    width:200px;
-    height:calc((200px - 12px) * 2556 / 1179 + 12px);
+    width:var(--how-m-phone);
+    height:calc((var(--how-m-phone) - 12px) * 2556 / 1179 + 12px);
     border-width:6px;border-radius:28px;
   }
   .how-screen{border-radius:22px;}
-  .how-phone-notch{width:60px;height:15px;}
-  .how-phone-dots{margin-top:10px;}
+  .how-phone-notch{width:52px;height:13px;}
+  .how-phone-dots{margin-top:6px;}
   .how-phone-dot{width:6px;height:6px;}
   .how-mobile-controls{display:none !important;}
 
@@ -659,7 +661,6 @@ footer{padding:32px 48px;background:var(--dark);display:flex;justify-content:spa
   .how-phone-col[data-active="0"] .how-screen.how-chip-stage:not(.active){
     transform:none !important;
   }
-  .how-step-item:first-child{padding-top:18px;}
 }
 /* Hide mobile-only controls on desktop */
 @media (min-width:768px){
